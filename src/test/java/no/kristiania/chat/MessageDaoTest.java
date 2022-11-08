@@ -1,6 +1,5 @@
-package no.kristiania.chats;
+package no.kristiania.chat;
 
-import javassist.tools.rmi.Sample;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

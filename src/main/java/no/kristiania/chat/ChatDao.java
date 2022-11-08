@@ -1,4 +1,4 @@
-package no.kristiania.chats;
+package no.kristiania.chat;
 
 import javax.sql.DataSource;
 import java.sql.SQLException;
