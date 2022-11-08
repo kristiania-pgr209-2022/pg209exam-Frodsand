@@ -4,7 +4,6 @@ import com.microsoft.sqlserver.jdbc.SQLServerDataSource;
 import org.flywaydb.core.Flyway;
 
 import javax.sql.DataSource;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.Properties;
