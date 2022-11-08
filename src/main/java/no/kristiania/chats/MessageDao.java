@@ -44,7 +44,7 @@ public class MessageDao {
         }
     }
 
-    private static Message createMessage(ResultSet rs) throws SQLException {
+    public static Message createMessage(ResultSet rs) throws SQLException {
         var message = new Message();
         message.setId(rs.getInt("id"));
         message.setSubject(rs.getString("subject"));
