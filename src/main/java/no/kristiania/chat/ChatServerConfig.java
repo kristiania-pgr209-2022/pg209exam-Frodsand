@@ -7,6 +7,7 @@ import javax.sql.DataSource;
 
 public class ChatServerConfig extends ResourceConfig {
     public ChatServerConfig(DataSource dataSource) {
+        super(ChatServerEndpoint.class);
         register(new AbstractBinder() {
             @Override
             protected void configure() {

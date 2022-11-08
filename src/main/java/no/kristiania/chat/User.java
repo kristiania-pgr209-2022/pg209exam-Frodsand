@@ -5,6 +5,10 @@ public class User {
     private int id;
     private String username;
 
+    private String emailAddress;
+
+    private String phoneNumber;
+
     public String getEmailAddress() {
         return emailAddress;
     }
@@ -13,17 +17,13 @@ public class User {
         this.emailAddress = emailAddress;
     }
 
-    public String getTlfNumber() {
-        return tlfNumber;
+    public String getPhoneNumber() {
+        return phoneNumber;
     }
 
-    public void setTlfNumber(String tlfNumber) {
-        this.tlfNumber = tlfNumber;
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
-
-    private String emailAddress;
-
-    private String tlfNumber;
 
     public int getId() {
         return id;

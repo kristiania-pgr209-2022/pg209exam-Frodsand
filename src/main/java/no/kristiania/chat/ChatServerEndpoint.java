@@ -12,17 +12,16 @@ import java.util.List;
 public class ChatServerEndpoint {
 
     @Inject
-    private ChatDao chatDao;
-
+    private MessageDao messageDao;
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public List<Message>getChatByUser(int userId) throws SQLException {
-        return chatDao.findChatByUser(userId);
+    public List<Message>getChatByUser() throws SQLException {
+        return messageDao.showAllMessages();
     }
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    public void sendMessage(User user, Message message) throws SQLException {
-       chatDao.insertIntoChat(user, message);
+    public void sendMessage(Message message) throws SQLException {
+       messageDao.sendMessage(message);
     }
 }
