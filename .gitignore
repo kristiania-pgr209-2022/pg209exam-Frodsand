@@ -1,1 +1,4 @@
 /.idea/
+/src/main/resources/webapp/
+/target/
+/application.properties

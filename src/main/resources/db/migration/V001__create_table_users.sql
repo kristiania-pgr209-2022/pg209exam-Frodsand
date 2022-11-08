@@ -1,0 +1,1 @@
+create table users(id int identity primary key, username varchar(100))
