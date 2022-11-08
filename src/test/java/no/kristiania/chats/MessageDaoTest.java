@@ -1,5 +1,6 @@
 package no.kristiania.chats;
 
+import javassist.tools.rmi.Sample;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -52,5 +53,20 @@ class MessageDaoTest {
         assertThat(messageDao.getMessageBySubject(message.getSubject()))
                 .extracting(Message::getId)
                 .contains(message.getId());
+    }
+
+    @Test
+    public void shouldShowAllMessages() throws SQLException {
+        var m1 = SampleChat.sampleMessage();
+        var m2 = SampleChat.sampleMessage();
+        var m3 = SampleChat.sampleMessage();
+
+        messageDao.sendMessage(m1);
+        messageDao.sendMessage(m2);
+        messageDao.sendMessage(m3);
+
+        assertThat(messageDao.showAllMessages())
+                .extracting(Message::getId)
+                .contains(m1.getId(), m2.getId(), m3.getId());
     }
 }
