@@ -60,6 +60,7 @@ public class ChatServer {
 
     private File getSource(Resource resource) throws IOException {
         if (resource.getFile() == null){
+            logger.warn("The file can not be found, make sure you have the correct set up");
             return null;
         }
         File source = new File(resource.getFile().getAbsolutePath()
