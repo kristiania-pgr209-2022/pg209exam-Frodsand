@@ -19,7 +19,7 @@ public class UserDao {
             try (var query = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
                 query.setString(1, user.getUsername());
                 query.setString(2, user.getEmailAddress());
-                query.setString(3, user.getTlfNumber());
+                query.setString(3, user.getPhoneNumber());
                 query.executeUpdate();
 
                 try (var rs = query.getGeneratedKeys()) {
@@ -49,7 +49,7 @@ public class UserDao {
         user.setId(rs.getInt("id"));
         user.setUsername(rs.getString("username"));
         user.setEmailAddress(rs.getString("email"));
-        user.setTlfNumber(rs.getString("tlf_number"));
+        user.setPhoneNumber(rs.getString("tlf_number"));
         return user;
     }
 

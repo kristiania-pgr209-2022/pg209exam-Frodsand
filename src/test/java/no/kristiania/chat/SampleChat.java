@@ -32,7 +32,7 @@ public class SampleChat {
                 "rick.sanchez@getschwifty.com",
                 "rhaenyra@therealqueen.com"
         ));
-        user.setTlfNumber(generateExample(
+        user.setPhoneNumber(generateExample(
                 "+43 38194628",
                 "+45 847294721",
                 "+47 12346251"
