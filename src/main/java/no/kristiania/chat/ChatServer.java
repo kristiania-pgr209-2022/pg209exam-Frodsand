@@ -22,7 +22,8 @@ public class ChatServer {
 
     private static final Logger logger = LoggerFactory.getLogger(ChatServer.class);
 
-    private Server server;
+    private final Server server;
+
     public ChatServer(int port, DataSource dataSource) throws IOException {
         this.server = new Server(port);
 
@@ -71,14 +72,14 @@ public class ChatServer {
         return server.getURI().toURL();
     }
 
-    private void start() throws Exception {
+    public void start() throws Exception {
         server.start();
         logger.info("Server is running on {} ", getUrl());
     }
 
     public static void main(String[] args) throws Exception {
-        ChatServer server = new ChatServer(8080, DbConnector.getDataSource());
-        server.start();
+       new ChatServer(8080, DbConnector.getDataSource()).start();
+
     }
 
 }

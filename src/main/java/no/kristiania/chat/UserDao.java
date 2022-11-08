@@ -1,5 +1,7 @@
 package no.kristiania.chat;
 
+import jakarta.inject.Inject;
+
 import javax.sql.DataSource;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -9,13 +11,14 @@ public class UserDao {
 
     private final DataSource dataSource;
 
+    @Inject
     public UserDao(DataSource dataSource){
         this.dataSource  = dataSource;
     }
 
     public void saveUser(User user) throws SQLException {
         try (var connection = dataSource.getConnection()) {
-            var sql = "insert into users (username, email, tlf_number) values (?, ?, ?)";
+            var sql = "insert into users (username, email, phone_number) values (?, ?, ?)";
             try (var query = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
                 query.setString(1, user.getUsername());
                 query.setString(2, user.getEmailAddress());
@@ -49,7 +52,7 @@ public class UserDao {
         user.setId(rs.getInt("id"));
         user.setUsername(rs.getString("username"));
         user.setEmailAddress(rs.getString("email"));
-        user.setPhoneNumber(rs.getString("tlf_number"));
+        user.setPhoneNumber(rs.getString("phone_number"));
         return user;
     }
 

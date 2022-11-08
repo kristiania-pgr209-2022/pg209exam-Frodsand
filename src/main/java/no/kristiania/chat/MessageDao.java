@@ -1,5 +1,7 @@
 package no.kristiania.chat;
 
+import jakarta.inject.Inject;
+
 import javax.sql.DataSource;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -11,6 +13,7 @@ public class MessageDao {
 
     private final DataSource dataSource;
 
+    @Inject
     public MessageDao(DataSource dataSource){
         this.dataSource = dataSource;
     }

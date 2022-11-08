@@ -1,5 +1,6 @@
 package no.kristiania.chat;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
@@ -12,6 +13,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class ChatServerTest {
 
     private ChatServer server;
+
+    @BeforeEach
+    void setUp() throws Exception {
+        server = new ChatServer(0, H2MemoryDataSource.createH2TestDataSource());
+        server.start();
+    }
 
     @Test
     public void shouldShowTitleForFrontPage() throws IOException {
