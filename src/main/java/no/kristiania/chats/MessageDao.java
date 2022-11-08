@@ -48,14 +48,6 @@ public class MessageDao {
         }
     }
 
-    public static Message createMessage(ResultSet rs) throws SQLException {
-        var message = new Message();
-        message.setId(rs.getInt("id"));
-        message.setSubject(rs.getString("subject"));
-        message.setMessageBody(rs.getString("message_body"));
-        return message;
-    }
-
     public void deleteMessage(int id) throws SQLException {
         try (var connection = dataSource.getConnection()) {
             var sql = "delete from messages where id = ?";
@@ -88,6 +80,14 @@ public class MessageDao {
                 }
             }
         }
+    }
+
+    public static Message createMessage(ResultSet rs) throws SQLException {
+        var message = new Message();
+        message.setId(rs.getInt("id"));
+        message.setSubject(rs.getString("subject"));
+        message.setMessageBody(rs.getString("message_body"));
+        return message;
     }
 
     private static ArrayList<Message> getMessages(ResultSet rs) throws SQLException {
