@@ -1,4 +1,4 @@
-package no.kristiania.chats;
+package no.kristiania.chat;
 
 import com.microsoft.sqlserver.jdbc.SQLServerDataSource;
 import org.flywaydb.core.Flyway;

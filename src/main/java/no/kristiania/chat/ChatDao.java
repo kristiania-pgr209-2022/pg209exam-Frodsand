@@ -1,4 +1,4 @@
-package no.kristiania.chats;
+package no.kristiania.chat;
 
 import javax.sql.DataSource;
 import java.sql.SQLException;
@@ -31,7 +31,7 @@ public class ChatDao {
                     select m.*
                     from chats c join messages m on c.message_id = m.id
                     where user_id = ?
-                    """;;
+                    """;
             try (var query = connection.prepareStatement(sql)) {
                 query.setInt(1, userId);
 

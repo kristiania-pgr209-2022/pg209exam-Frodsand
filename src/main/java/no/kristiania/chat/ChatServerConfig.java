@@ -1,4 +1,4 @@
-package no.kristiania.chats;
+package no.kristiania.chat;
 
 import org.glassfish.hk2.utilities.binding.AbstractBinder;
 import org.glassfish.jersey.server.ResourceConfig;

@@ -1,4 +1,4 @@
-package no.kristiania.chats;
+package no.kristiania.chat;
 
 public class Chat {
 
