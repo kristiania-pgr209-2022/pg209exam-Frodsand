@@ -1,1 +1,1 @@
-create table users(id int identity primary key, username varchar(100))
+create table users(id int identity primary key, username varchar(100), email varchar(100), tlf_number varchar(100))
