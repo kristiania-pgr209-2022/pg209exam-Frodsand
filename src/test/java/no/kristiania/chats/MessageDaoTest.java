@@ -27,4 +27,31 @@ class MessageDaoTest {
                 .isEqualTo(message)
                 .isNotSameAs(message);
     }
+
+    @Test
+    public void shouldDeleteMessage() throws SQLException {
+        var message = SampleChat.sampleMessage();
+        messageDao.sendMessage(message);
+
+        assertThat(messageDao.retrieveMessage(message.getId()))
+                .usingRecursiveComparison()
+                .isEqualTo(message)
+                .isNotSameAs(message);
+
+        messageDao.deleteMessage(message.getId());
+
+        assertThat(messageDao.retrieveMessage(message.getId()))
+                .usingRecursiveComparison()
+                .isNull();
+    }
+
+    @Test
+    public void shouldReturnMessageBySubject() throws SQLException {
+        var message = SampleChat.sampleMessage();
+        messageDao.sendMessage(message);
+
+        assertThat(messageDao.getMessageBySubject(message.getSubject()))
+                .extracting(Message::getId)
+                .contains(message.getId());
+    }
 }

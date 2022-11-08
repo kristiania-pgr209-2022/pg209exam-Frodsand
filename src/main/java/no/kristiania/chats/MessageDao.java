@@ -4,6 +4,7 @@ import javax.sql.DataSource;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
 
 public class MessageDao {
@@ -37,8 +38,12 @@ public class MessageDao {
             try (var query = connection.prepareStatement(sql)) {
                 query.setInt(1, id);
                 try (var rs = query.executeQuery()) {
-                    rs.next();
-                    return createMessage(rs);
+                    if(rs.next()){
+                        return createMessage(rs);
+                    }
+                    else{
+                        return null;
+                    }
                 }
             }
         }
@@ -52,12 +57,48 @@ public class MessageDao {
         return message;
     }
 
-    public List<Message> getMessageBySubject(){
-        return null;
+    public void deleteMessage(int id) throws SQLException {
+        try (var connection = dataSource.getConnection()) {
+            var sql = "delete from messages where id = ?";
+            try (var query = connection.prepareStatement(sql)) {
+                query.setInt(1, id);
+
+                query.executeUpdate();
+            }
+        }
     }
 
-    public List<Message> showAllMessages(){
-        return null;
+    public List<Message> getMessageBySubject(String subject) throws SQLException {
+        try (var connection = dataSource.getConnection()) {
+            var sql = "select * from messages where subject = ?";
+            try (var query = connection.prepareStatement(sql)) {
+                query.setString(1, subject);
+                try (var rs = query.executeQuery()) {
+                    return getMessages(rs);
+                }
+            }
+        }
+    }
+
+
+    public List<Message> showAllMessages() throws SQLException {
+        try (var connection = dataSource.getConnection()) {
+            var sql = "select * from messages";
+            try (var query = connection.prepareStatement(sql)) {
+                try (var rs = query.executeQuery()) {
+                    return getMessages(rs);
+                }
+            }
+        }
+    }
+    private static ArrayList<Message> getMessages(ResultSet rs) throws SQLException {
+        var messages = new ArrayList<Message>();
+        if (rs != null){
+            while(rs.next()){
+                messages.add(createMessage(rs));
+            }
+        }
+        return messages;
     }
 
 }
