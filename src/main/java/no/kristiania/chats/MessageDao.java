@@ -33,7 +33,7 @@ public class MessageDao {
 
     public Message retrieveMessage(int id) throws SQLException {
         try (var connection = dataSource.getConnection()) {
-            var sql = "";
+            var sql = "select * from messages where id = ?";
             try (var query = connection.prepareStatement(sql)) {
                 query.setInt(1, id);
                 try (var rs = query.executeQuery()) {
