@@ -31,7 +31,6 @@ public class MessageDao {
         }
     }
 
-
     public Message retrieveMessage(int id) throws SQLException {
         try (var connection = dataSource.getConnection()) {
             var sql = "select * from messages where id = ?";
@@ -80,7 +79,6 @@ public class MessageDao {
         }
     }
 
-
     public List<Message> showAllMessages() throws SQLException {
         try (var connection = dataSource.getConnection()) {
             var sql = "select * from messages";
@@ -91,6 +89,7 @@ public class MessageDao {
             }
         }
     }
+
     private static ArrayList<Message> getMessages(ResultSet rs) throws SQLException {
         var messages = new ArrayList<Message>();
         if (rs != null){

@@ -70,6 +70,7 @@ public class ChatServer {
     public URL getUrl() throws MalformedURLException {
         return server.getURI().toURL();
     }
+
     private void start() throws Exception {
         server.start();
         logger.info("Server is running on {} ", getUrl());
