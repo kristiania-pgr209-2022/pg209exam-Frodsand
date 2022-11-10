@@ -65,7 +65,7 @@ public class ChatServer {
         }
         File source = new File(resource.getFile().getAbsolutePath()
                 .replace('\\', '/')
-                .replace("target/classes", "src/main/resource"));
+                .replace("target/classes", "src/main/resources"));
         return source.exists() ? source : null;
     }
 
