@@ -17,6 +17,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Optional;
 
 public class ChatServer {
 
@@ -79,7 +80,10 @@ public class ChatServer {
     }
 
     public static void main(String[] args) throws Exception {
-       new ChatServer(8080, DbConnector.getDataSource()).start();
+        var port = Optional.ofNullable(System.getenv("HTTP_PLATFORM_PORT"))
+                .map(Integer::parseInt)
+                .orElse(8080);
+        new ChatServer(port, DbConnector.getDataSource()).start();
 
     }
 

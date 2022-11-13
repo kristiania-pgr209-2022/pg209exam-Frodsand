@@ -27,6 +27,48 @@
             </plugin>
 
             <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>3.3.0</version>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <mainClass>no.kristiania.chat.ChatServer</mainClass>
+                        </manifest>
+                    </archive>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>3.4.1</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <transformers>
+                        <transformer
+                                implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer"/>
+                    </transformers>
+                    <filters>
+                        <filter>
+                            <artifact>*:*</artifact>
+                            <excludes>
+                                <exclude>META-INF/*.SF</exclude>
+                                <exclude>META-INF/*.DSA</exclude>
+                                <exclude>META-INF/*.RSA</exclude>
+                            </excludes>
+                        </filter>
+                    </filters>
+                </configuration>
+            </plugin>
+
+            <plugin>
                 <groupId>com.github.eirslett</groupId>
                 <artifactId>frontend-maven-plugin</artifactId>
                 <version>1.12.1</version>
@@ -63,6 +105,40 @@
                     </execution>
                 </executions>
             </plugin>
+            <plugin>
+            <groupId>com.microsoft.azure</groupId>
+            <artifactId>azure-webapp-maven-plugin</artifactId>
+            <version>2.7.0</version>
+            <configuration>
+                <schemaVersion>v2</schemaVersion>
+                <resourceGroup>${project.groupId}</resourceGroup>
+                <appName>${project.artifactId}-${user.name}</appName>
+                <pricingTier>F1</pricingTier>
+                <region>westeurope</region>
+                <runtime>
+                    <os>Windows</os>
+                    <javaVersion>Java 17</javaVersion>
+                    <webContainer>Java SE</webContainer>
+                </runtime>
+                <deployment>
+                    <resources>
+                        <resource>
+                            <directory>${project.basedir}/target</directory>
+                            <includes>
+                                <include>${project.build.finalName}.jar</include>
+                            </includes>
+                        </resource>
+                        <resource>
+                            <type>static</type>
+                            <directory>${project.basedir}/src/main/azure</directory>
+                            <includes>
+                                <include>*.properties</include>
+                            </includes>
+                        </resource>
+                    </resources>
+                </deployment>
+            </configuration>
+        </plugin>
         </plugins>
     </build>
 
