@@ -8,8 +8,51 @@ function ChooseUser(){
 
 }
 
+function ChatList(){
+    const [isLoading, setIsLoading] = useState(true);
+    const [chat, setChat] = useState([]);
+    const [messages, setMessages] = useState([]);
 
-function MessageList(){
+    useEffect(() => {
+        (async () => {
+            const response = await fetch("/api/chat/messages");
+            if (response.ok){
+                setMessages(await response.json());
+                setIsLoading(false);
+            }
+        })()
+    }, []);
+
+    useEffect(() => {
+        (async () => {
+            const response = await fetch("/api/chat");
+            if (response.ok){
+                setChat(await response.json());
+                setIsLoading(false);
+            }
+        })()
+    }, []);
+
+    if (isLoading){
+        return <div>Loading...</div>
+    }
+
+    function messageByUser(id){
+
+        let messagesIds = chats.map(c => c.messageId);
+        messages.filter(
+            m => m.id = messagesIds
+        );
+    }
+
+    function handleOnClick(username){
+
+    }
+
+    return chat.map(c => <button onClick={handleOnClick}>{c}</button>)
+}
+
+function UserList(){
     const [isLoading, setIsLoading] = useState(true);
     const [users, setUsers] = useState([]);
 
@@ -32,8 +75,33 @@ function MessageList(){
 
     }
 
-    return users.map(u => <button onClick={handleOnClick}>u.name</button>)
+    return users.map(u => <button onClick={handleOnClick}>{u.username}</button>)
+}
 
+function MessageList(){
+    const [isLoading, setIsLoading] = useState(true);
+    const [messages, setMessages] = useState([]);
+
+
+    useEffect(() => {
+        (async () => {
+            const response = await fetch("/api/chat");
+            if (response.ok){
+                setMessages(await response.json());
+                setIsLoading(false);
+            }
+        })()
+    }, []);
+
+    if (isLoading){
+        return <div>Loading...</div>
+    }
+
+    function handleOnClick(username){
+
+    }
+
+    return messages.map(m => <button onClick={handleOnClick}>{m.messageBody}</button>)
 }
 
 function SendMessage(){
@@ -91,8 +159,9 @@ function App() {
             <h1>
                 Messages
             </h1>
-            <MessageList/>
+            <UserList/>
             <SendMessage/>
+            <MessageList/>
         </div>
     </>
   )

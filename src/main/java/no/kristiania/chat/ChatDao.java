@@ -28,12 +28,12 @@ public class ChatDao {
         }
     }
 
-    public List<Message> findChatByUser(int userId) throws SQLException {
+    public List<Message> findChatBySender(int userId) throws SQLException {
         try (var connection = dataSource.getConnection()) {
             var sql = """
                     select m.*
                     from chats c join messages m on c.message_id = m.id
-                    where user_id = ?
+                    where sender_id = ?
                     """;
             try (var query = connection.prepareStatement(sql)) {
                 query.setInt(1, userId);
