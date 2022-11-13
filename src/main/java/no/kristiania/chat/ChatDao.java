@@ -18,22 +18,23 @@ public class ChatDao {
 
     public void insertIntoChat(User user, Message message) throws SQLException {
         try (var connection = dataSource.getConnection()) {
-            var sql = "insert into chats (user_id, message_id) values (?, ?)";
+            var sql = "insert into chat (sender_id, receiver_id, message_id) values (?, ?, ?)";
             try (var query = connection.prepareStatement(sql)) {
                 query.setInt(1, user.getId());
-                query.setInt(2, message.getId());
+                query.setInt(2, user.getId());
+                query.setInt(3, message.getId());
 
                 query.executeUpdate();
             }
         }
     }
 
-    public List<Message> findChatBySender(int userId) throws SQLException {
+    public List<Message> findChatByReceiver(int userId) throws SQLException {
         try (var connection = dataSource.getConnection()) {
             var sql = """
                     select m.*
-                    from chats c join messages m on c.message_id = m.id
-                    where sender_id = ?
+                    from chat c join message m on c.message_id = m.id
+                    where receiver_id = ?
                     """;
             try (var query = connection.prepareStatement(sql)) {
                 query.setInt(1, userId);

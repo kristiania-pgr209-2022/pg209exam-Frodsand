@@ -38,11 +38,11 @@ class ChatDaoTest {
         chatDao.insertIntoChat(user1, message1);
         chatDao.insertIntoChat(user2, message2);
 
-        assertThat(chatDao.findChatBySender(user1.getId()))
+        assertThat(chatDao.findChatByReceiver(user1.getId()))
                 .extracting(Message::getId)
                 .contains(message1.getId());
 
-        assertThat(chatDao.findChatBySender(user2.getId()))
+        assertThat(chatDao.findChatByReceiver(user2.getId()))
                 .extracting(Message::getId)
                 .contains(message2.getId());
 

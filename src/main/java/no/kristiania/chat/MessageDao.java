@@ -20,7 +20,7 @@ public class MessageDao {
 
     public void sendMessage(Message message) throws SQLException {
         try (var connection = dataSource.getConnection()) {
-            var sql = "insert into messages (subject, message_body) values (?, ?)";
+            var sql = "insert into message (subject, message_body) values (?, ?)";
             try (var query = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
                 query.setString(1, message.getSubject());
                 query.setString(2, message.getMessageBody());
@@ -36,7 +36,7 @@ public class MessageDao {
 
     public Message retrieveMessage(int id) throws SQLException {
         try (var connection = dataSource.getConnection()) {
-            var sql = "select * from messages where id = ?";
+            var sql = "select * from message where id = ?";
             try (var query = connection.prepareStatement(sql)) {
                 query.setInt(1, id);
                 try (var rs = query.executeQuery()) {
@@ -53,7 +53,7 @@ public class MessageDao {
 
     public void deleteMessage(int id) throws SQLException {
         try (var connection = dataSource.getConnection()) {
-            var sql = "delete from messages where id = ?";
+            var sql = "delete from message where id = ?";
             try (var query = connection.prepareStatement(sql)) {
                 query.setInt(1, id);
 
@@ -64,7 +64,7 @@ public class MessageDao {
 
     public List<Message> getMessageBySubject(String subject) throws SQLException {
         try (var connection = dataSource.getConnection()) {
-            var sql = "select * from messages where subject = ?";
+            var sql = "select * from message where subject = ?";
             try (var query = connection.prepareStatement(sql)) {
                 query.setString(1, subject);
                 try (var rs = query.executeQuery()) {
@@ -76,7 +76,7 @@ public class MessageDao {
 
     public List<Message> showAllMessages() throws SQLException {
         try (var connection = dataSource.getConnection()) {
-            var sql = "select * from messages";
+            var sql = "select * from message";
             try (var query = connection.prepareStatement(sql)) {
                 try (var rs = query.executeQuery()) {
                     return getMessages(rs);

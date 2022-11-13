@@ -3,56 +3,38 @@ import * as React from "react";
 import './App.css'
 import {useEffect, useState} from "react";
 
+const [activeUser, setActiveUser] = useState({});
 
-function ChooseUser(){
-
-}
-
-function ChatList(){
-    const [isLoading, setIsLoading] = useState(true);
-    const [chat, setChat] = useState([]);
+function ChatList(activeUser){
     const [messages, setMessages] = useState([]);
 
     useEffect(() => {
         (async () => {
-            const response = await fetch("/api/chat/messages");
-            if (response.ok){
-                setMessages(await response.json());
-                setIsLoading(false);
+            if(activeUser != null){
+                const response = await fetch(`/api/chat/${activeUser.id}`);
+                if (response.ok){
+                    setMessages(await response.json());
+                }
             }
         })()
-    }, []);
+    }, [activeUser.id]);
 
-    useEffect(() => {
-        (async () => {
-            const response = await fetch("/api/chat");
-            if (response.ok){
-                setChat(await response.json());
-                setIsLoading(false);
-            }
-        })()
-    }, []);
 
-    if (isLoading){
-        return <div>Loading...</div>
+    console.log(messages);
+    if(messages != null){
+        return messages.map(m =>
+            <div>{m.subject}</div>
+        )
     }
 
-    function messageByUser(id){
-
-        let messagesIds = chats.map(c => c.messageId);
-        messages.filter(
-            m => m.id = messagesIds
-        );
-    }
-
-    function handleOnClick(username){
-
-    }
-
-    return chat.map(c => <button onClick={handleOnClick}>{c}</button>)
+    return(
+        <div>
+            no messages
+        </div>
+    )
 }
 
-function UserList(){
+function UserList(activeUser, setActiveUser){
     const [isLoading, setIsLoading] = useState(true);
     const [users, setUsers] = useState([]);
 
@@ -71,21 +53,21 @@ function UserList(){
         return <div>Loading...</div>
     }
 
-    function handleOnClick(username){
-
+    function handleOnClick(input){
+        setActiveUser(input)
     }
 
-    return users.map(u => <button onClick={handleOnClick}>{u.username}</button>)
+    return users.map(u => <button value={u} onClick={() => handleOnClick(u)}>{u.username}</button>)
 }
 
-function MessageList(){
+/*function MessageList(){
     const [isLoading, setIsLoading] = useState(true);
     const [messages, setMessages] = useState([]);
 
 
     useEffect(() => {
         (async () => {
-            const response = await fetch("/api/chat");
+            const response = await fetch("/api/chat/messages");
             if (response.ok){
                 setMessages(await response.json());
                 setIsLoading(false);
@@ -102,7 +84,7 @@ function MessageList(){
     }
 
     return messages.map(m => <button onClick={handleOnClick}>{m.messageBody}</button>)
-}
+}*/
 
 function SendMessage(){
 
@@ -159,9 +141,9 @@ function App() {
             <h1>
                 Messages
             </h1>
-            <UserList/>
+            <UserList activeUser={activeUser} setActiveUser={setActiveUser()}/>
             <SendMessage/>
-            <MessageList/>
+            <ChatList activeUser={activeUser}/>
         </div>
     </>
   )

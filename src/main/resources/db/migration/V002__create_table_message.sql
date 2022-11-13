@@ -1,0 +1,1 @@
+create table message(id int identity primary key, subject varchar(100), message_body varchar(300))

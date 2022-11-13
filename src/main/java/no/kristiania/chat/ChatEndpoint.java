@@ -19,10 +19,11 @@ public class ChatEndpoint {
     @Inject
     private ChatDao chatDao;
 
+    @Path("/{userId}")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public List<Message>getChatBySender() throws SQLException {
-        return chatDao.findChatBySender(1);
+    public List<Message>getChatBySender(@PathParam("userId") int userId) throws SQLException {
+        return chatDao.findChatByReceiver(userId);
     }
 
     @Path("/messages")
@@ -32,7 +33,6 @@ public class ChatEndpoint {
         return messageDao.showAllMessages();
     }
 
-    @Path("/messages")
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     public void sendMessage(Message message) throws SQLException {
