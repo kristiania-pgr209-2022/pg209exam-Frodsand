@@ -4,6 +4,10 @@ import './App.css'
 import {useEffect, useState} from "react";
 
 
+function ChooseUser(){
+
+}
+
 
 function MessageList(){
     const [isLoading, setIsLoading] = useState(true);
@@ -12,7 +16,7 @@ function MessageList(){
 
     useEffect(() => {
         (async () => {
-            const response = await fetch("/api/chat");
+            const response = await fetch("/api/chat/user");
             if (response.ok){
                 setUsers(await response.json());
                 setIsLoading(false);
@@ -24,7 +28,7 @@ function MessageList(){
         return <div>Loading...</div>
     }
 
-    function handleOnClick(){
+    function handleOnClick(username){
 
     }
 

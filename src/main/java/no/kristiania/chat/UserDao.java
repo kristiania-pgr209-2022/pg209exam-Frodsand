@@ -6,6 +6,8 @@ import javax.sql.DataSource;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 public class UserDao {
 
@@ -59,5 +61,27 @@ public class UserDao {
     public void updateUser(){
         //To be implemented
     }
+
+    public List<User> showAllUsers() throws SQLException {
+        try (var connection = dataSource.getConnection()) {
+            var sql = "select * from users";
+            try (var query = connection.prepareStatement(sql)) {
+                try (var rs = query.executeQuery()) {
+                    return getUsers(rs);
+                }
+            }
+        }
+    }
+
+    private List<User> getUsers(ResultSet rs) throws SQLException {
+        var users = new ArrayList<User>();
+        if(rs != null){
+            while(rs.next()){
+                users.add(createUser(rs));
+            }
+        }
+        return users;
+    }
+
 
 }
