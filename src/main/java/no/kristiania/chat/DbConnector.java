@@ -28,6 +28,7 @@ public class DbConnector {
         logger.info("Attempting to execute migrations");
         try {
             Flyway.configure().dataSource(dataSource).load().migrate();
+            logger.info("Successfully executed migrations");
 
         } catch (FlywayException e) {
             logger.info("Failed to execute migration. Error:" + e);
