@@ -19,6 +19,12 @@ public class ChatEndpoint {
     @Inject
     private ChatDao chatDao;
 
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    public void sendMessage(Message message) throws SQLException {
+        messageDao.sendMessage(message);
+    }
+
     @Path("/{userId}")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
@@ -31,12 +37,6 @@ public class ChatEndpoint {
     @Produces(MediaType.APPLICATION_JSON)
     public List<Message>getChatByUser() throws SQLException {
         return messageDao.showAllMessages();
-    }
-
-    @POST
-    @Consumes(MediaType.APPLICATION_JSON)
-    public void sendMessage(Message message) throws SQLException {
-        messageDao.sendMessage(message);
     }
 
     @Path("/user")
