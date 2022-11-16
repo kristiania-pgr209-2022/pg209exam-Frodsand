@@ -4,30 +4,30 @@
 
 ## Sjekkliste for innleveringen
 
-* [ ] Dere har lest eksamensteksten
-* [ ] Koden er sjekket inn på github.com/pg209-2022 repository
+* [x] Dere har lest eksamensteksten
+* [x] Koden er sjekket inn på github.com/pg209-2022 repository
 * [ ] Dere har lastet opp en ZIP-fil lastet ned fra Github
 * [ ] Dere har committed kode med begge prosjektdeltagernes GitHub-konto (alternativt: README beskriver hvordan dere har jobbet)
 
 ## README.md
 
-* [ ] Inneholder link til Azure Websites deployment
-* [ ] Inneholder en korrekt badge til GitHub Actions
+* [x] Inneholder link til Azure Websites deployment
+* [x] Inneholder en korrekt badge til GitHub Actions
 * [ ] Beskriver hva dere har løst utover minimum
 * [ ] Inneholder et diagram over databasemodellen
 
 ## Koden
 
 * [ ] Oppfyller Java kodestandard med hensyn til indentering og navngiving
-* [ ] Er deployet korrekt til Azure Websites
+* [x] Er deployet korrekt til Azure Websites
 * [ ] Inneholder tester av HTTP og database-logikk
-* [ ] Bruker Flyway DB for å sette opp databasen
+* [x] Bruker Flyway DB for å sette opp databasen
 * [ ] Skriver ut nyttige logmeldinger
 
 ## Basisfunksjonalitet
 
-* [ ] Kan velge hvilken bruker vi skal opptre som
-* [ ] Viser eksisterende meldinger til brukeren
+* [x] Kan velge hvilken bruker vi skal opptre som
+* [x] Viser eksisterende meldinger til brukeren
 * [ ] Lar brukeren opprette en ny melding
 * [ ] Lar brukeren svare på meldinger
 * [ ] For A: Kan endre navn og annen informasjon om bruker

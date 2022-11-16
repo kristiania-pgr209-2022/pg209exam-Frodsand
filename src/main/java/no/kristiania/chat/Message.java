@@ -36,6 +36,6 @@ public class Message {
         return "Message {\n" +
                 "Subject: " + subject + "\n" +
                 "message body: " + messageBody + "\n" +
-                "}";
+                "}" + "\n";
     }
 }

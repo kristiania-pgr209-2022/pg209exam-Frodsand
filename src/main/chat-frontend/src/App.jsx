@@ -44,9 +44,8 @@ function ChatList({activeUser}){
     )
 }
 
-function UserList({setActiveUser}){
+function UserList({setActiveUser, users, setUsers}){
     const [isLoading, setIsLoading] = useState(true);
-    const [users, setUsers] = useState([]);
 
     useEffect(() => {
         (async () => {
@@ -67,19 +66,25 @@ function UserList({setActiveUser}){
         setActiveUser(input);
     }
 
-    return users.map(u => <button value={u} onClick={(e) => handleOnClick(u)}>{u.username}</button>)
+    return  (
+        <div>
+            Sender:
+            {
+                users.map(u => <button value={u} onClick={(e) => handleOnClick(u)}>{u.username}</button>)
+            }
+        </div>
+
+    )
 }
 
-/*function MessageList(){
-    const [isLoading, setIsLoading] = useState(true);2
-    const [messages, setMessages] = useState([]);
-
+function ReceiverList({users, setReceiver, setUsers}){
+    const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
         (async () => {
-            const response = await fetch("/api/chat/messages");
+            const response = await fetch("/api/chat/user");
             if (response.ok){
-                setMessages(await response.json());
+                setUsers(await response.json());
                 setIsLoading(false);
             }
         })()
@@ -89,27 +94,46 @@ function UserList({setActiveUser}){
         return <div>Loading...</div>
     }
 
-    function handleOnClick(username){
-
+    function handleOnClick(input){
+        setReceiver(input);
     }
 
-    return messages.map(m => <button onClick={handleOnClick}>{m.messageBody}</button>)
-}*/
+    return  (
+        <div>
+            Receiver:
+            {
+                users.map(u => <button value={u} onClick={(e) => handleOnClick(u)}>{u.username}</button>)
+            }
+        </div>
 
-function SendMessage(){
+    )
+}
+
+function SendMessage({activeUser, receiver}){
 
     const [subject, setSubject] = useState("");
     const [messageBody, setMessageBody] = useState("");
 
     async function handleOnSubmit(e){
         e.preventDefault();
-        await fetch("/api/chat", {
-            method: "post",
-            body: JSON.stringify({subject, messageBody}),
-            headers: {
-                "Content-Type": "application/json"
-            },
-        });
+
+        const inputMessage = {
+            senderId: activeUser.id,
+            receiverId: receiver.id,
+            message: {
+                subject: subject,
+                messageBody: messageBody
+            }
+        }
+
+            console.log("Her er jeg!", activeUser);
+            await fetch("/api/chat/messages", {
+                method: "post",
+                body: JSON.stringify(inputMessage),
+                headers: {
+                    "Content-Type": "application/json"
+                },
+            });
     }
 
     return(
@@ -144,9 +168,15 @@ function SendMessage(){
 }
 
 
+
 function App() {
     const [activeUser, setActiveUser] = useState(null);
+    const [users, setUsers] = useState([]);
+    const [receiver, setReceiver] = useState(null);
+
     console.log("active user", activeUser);
+
+    console.log("receiver", receiver);
 
     return (
     <>
@@ -154,8 +184,9 @@ function App() {
             <h1>
                 Messages
             </h1>
-            <UserList activeUser={activeUser} setActiveUser={setActiveUser}/>
-            <SendMessage/>
+            <UserList users={users} setUsers={setUsers} setActiveUser={setActiveUser}/>
+            <ReceiverList users={users} setUsers={setUsers} setReceiver={setReceiver}/>
+            <SendMessage receiver={receiver} activeUser={activeUser}/>
             <ChatList activeUser={activeUser}/>
         </div>
     </>

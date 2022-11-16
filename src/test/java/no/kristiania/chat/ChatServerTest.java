@@ -1,5 +1,7 @@
 package no.kristiania.chat;
 
+import jakarta.json.Json;
+import jakarta.json.JsonObject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -28,6 +30,27 @@ public class ChatServerTest {
                 .asString(StandardCharsets.UTF_8)
                 .contains("<title>Chat</title>");
 
+    }
+
+    @Test
+    public void shouldPostAndGetMessage() throws IOException {
+        var postConnection = createConnection("/api/chat");
+        postConnection.setRequestMethod("POST");
+        postConnection.setRequestProperty("Content-Type", "application/json");
+        postConnection.setDoOutput(true);
+
+        JsonObject message = Json.createObjectBuilder()
+                .add("subject", "Hello")
+                .add("messageBody", "Hello World!")
+                .build();
+        postConnection.getOutputStream().write(message.toString().getBytes(StandardCharsets.UTF_8));
+
+        assertThat(postConnection.getResponseCode()).isEqualTo(204);
+
+        var getConnection = createConnection("/api/chat/messages");
+        assertThat(getConnection.getInputStream())
+                .asString(StandardCharsets.UTF_8)
+                .contains("\"messageBody\":\"Hello World!\"");
     }
 
     private HttpURLConnection createConnection(String path) throws IOException {

@@ -1,6 +1,8 @@
 package no.kristiania.chat;
 
 import jakarta.inject.Inject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.sql.DataSource;
 import java.sql.SQLException;
@@ -9,6 +11,8 @@ import java.util.List;
 
 public class ChatDao {
 
+    private Logger logger = LoggerFactory.getLogger(ChatDao.class);
+
     private final DataSource dataSource;
 
     @Inject
@@ -16,13 +20,14 @@ public class ChatDao {
         this.dataSource = dataSource;
     }
 
-    public void insertIntoChat(User user, Message message) throws SQLException {
+    public void insertIntoChat(int senderId, int receiverId, int messageId) throws SQLException {
+        logger.info(String.valueOf(senderId));
         try (var connection = dataSource.getConnection()) {
             var sql = "insert into chat (sender_id, receiver_id, message_id) values (?, ?, ?)";
             try (var query = connection.prepareStatement(sql)) {
-                query.setInt(1, user.getId());
-                query.setInt(2, user.getId());
-                query.setInt(3, message.getId());
+                query.setInt(1, senderId);
+                query.setInt(2, receiverId);
+                query.setInt(3, messageId);
 
                 query.executeUpdate();
             }
