@@ -29,7 +29,8 @@ public class ChatEndpoint {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     public void sendMessage(MessageDto message) throws SQLException {
-        chatDao.insertIntoChat(message.getSenderId(), message.getReceiverId(), messageDao.sendMessage(message.getMessage()));
+        messageDao.sendMessage(message.getMessage());
+        chatDao.insertIntoChat(message.getSenderId(), message.getReceiverId(), message.getMessage().getId());
     }
 
     @Path("/messages")
