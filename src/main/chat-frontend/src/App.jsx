@@ -71,16 +71,10 @@ function UserList({setActiveUser}){
 }
 
 function SendMessage({activeUser}){
-    const example = {
-        receiverId: 1,
-        senderId: 2,
-        message: {
-            subject: "Hello there",
-            messageBody: "The message"
-        }
-    }
 
-    const [receiver, setReceiver] = useState("");
+    const senderId = activeUser.id;
+
+    const [receiverId, setReceiverId] = useState("");
     const [subject, setSubject] = useState("");
     const [messageBody, setMessageBody] = useState("");
 
@@ -88,7 +82,7 @@ function SendMessage({activeUser}){
         e.preventDefault();
         await fetch("/api/chat/messages", {
             method: "post",
-            body: JSON.stringify(example),
+            body: JSON.stringify({senderId, receiverId, subject, messageBody}),
             headers: {
                 "Content-Type": "application/json"
             },
@@ -103,10 +97,12 @@ function SendMessage({activeUser}){
                     <label>
                         TO: {" "}
                         <input
-                            type={"text"}
-                            value={receiver.id}
-                            onChange={(e) => setReceiver(e.target.value)}
+                            type={""}
+                            value={receiverId}
+                            onChange={(e) => setReceiverId(e.target.value)}
                         />
+
+
                     </label>
                 </div>
                 <div>
