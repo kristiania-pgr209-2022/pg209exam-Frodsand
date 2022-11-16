@@ -19,11 +19,18 @@ public class ChatEndpoint {
     @Inject
     private ChatDao chatDao;
 
-    @Path("/{userId}")
+    @Path("/received/{userId}")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<Message>getChatByReceiver(@PathParam("userId") int userId) throws SQLException {
+        return chatDao.findChatByReceiver(userId);
+    }
+
+    @Path("/sent/{userId}")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public List<Message>getChatBySender(@PathParam("userId") int userId) throws SQLException {
-        return chatDao.findChatByReceiver(userId);
+        return chatDao.findChatBySender(userId);
     }
     @Path("/messages")
     @POST

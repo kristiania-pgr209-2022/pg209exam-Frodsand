@@ -3,13 +3,13 @@ import './App.css'
 import {useEffect, useState} from "react";
 
 
-function ChatList({activeUser}){
+function MessagesReceivedList({activeUser}){
     const [messages, setMessages] = useState([]);
 
     useEffect(() => {
         (async () => {
             if(activeUser != null){
-                const response = await fetch(`/api/chat/${activeUser.id}`);
+                const response = await fetch(`/api/chat/received/${activeUser.id}`);
                 if (response.ok){
                     setMessages(await response.json());
                 }
@@ -25,6 +25,52 @@ function ChatList({activeUser}){
         return (
             <div>
                 messages received:
+                {
+                    messages.map(m =>
+                        <div>
+                            Subject: {m.subject}
+                            <div>{m.messageBody} </div>
+                            --
+                        </div>
+
+                    )
+                }
+
+            </div>
+        )
+    } else{
+        console.log("error - messages is null");
+    }
+
+    return(
+        <div>
+            no messages
+        </div>
+    )
+}
+
+function MessagesSentList({activeUser}){
+    const [messages, setMessages] = useState([]);
+
+    useEffect(() => {
+        (async () => {
+            if(activeUser != null){
+                const response = await fetch(`/api/chat/sent/${activeUser.id}`);
+                if (response.ok){
+                    setMessages(await response.json());
+                }
+                else {
+                    console.log("error - useEffect in chatlist");
+                }
+            }
+        })()
+    }, [activeUser]);
+
+
+    if(messages != null){
+        return (
+            <div>
+                messages sent:
                 {
                     messages.map(m =>
                         <div>
@@ -227,7 +273,8 @@ function App() {
             <UserList users={users} setUsers={setUsers} setActiveUser={setActiveUser}/>
             <ReceiverList users={users} setUsers={setUsers} setReceiver={setReceiver}/>
             <SendMessage receiver={receiver} activeUser={activeUser}/>
-            <ChatList activeUser={activeUser}/>
+            <MessagesReceivedList activeUser={activeUser}/>
+            <MessagesSentList activeUser={activeUser}/>
         </div>
     </>
   )
