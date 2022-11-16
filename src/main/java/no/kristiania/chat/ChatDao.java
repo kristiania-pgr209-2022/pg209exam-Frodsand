@@ -62,7 +62,7 @@ public class ChatDao {
             var sql = """
                       select u 
                       from chat c join user u on c.sender_id = u.id
-                      where receiver = id = ?
+                      where receiver_id = ?
                       """;
             try (var query = connection.prepareStatement(sql)) {
                 query.setInt(1, receiverId);

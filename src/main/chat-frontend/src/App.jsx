@@ -31,7 +31,7 @@ function MessagesReceivedList({activeUser}){
                             <div>To: {activeUser.username}</div>
                             <div>Subject: {m.subject}</div>
                             <div>{m.messageBody} </div>
-                            <div>From: </div>
+                            <div>From: <GetSender activeUser={activeUser}/></div>
                             --
                         </div>
                     )
@@ -49,12 +49,14 @@ function MessagesReceivedList({activeUser}){
     )
 }
 
-function GetSender({sender, setSender}){
+function GetSender({activeUser}){
+
+    const [sender, setSender] = useState({});
 
     useEffect(() => {
         (async () => {
             if(sender != null){
-                const response = await fetch(`/api/chat/sender/${sender.id}`);
+                const response = await fetch(`/api/chat/sender/${activeUser.id}`);
                 if (response.ok){
                     setSender(await response.json());
                 }
