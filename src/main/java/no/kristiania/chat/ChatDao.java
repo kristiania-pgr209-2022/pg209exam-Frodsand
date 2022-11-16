@@ -56,4 +56,28 @@ public class ChatDao {
             }
         }
     }
+
+
+    public List<Message> findChatBySender(int userId) throws SQLException {
+        try (var connection = dataSource.getConnection()) {
+            var sql = """
+                    select m.*
+                    from chat c join message m on c.message_id = m.id
+                    where sender_id = ?
+                    """;
+            try (var query = connection.prepareStatement(sql)) {
+                query.setInt(1, userId);
+
+                ArrayList<Message> messages;
+                try (var rs = query.executeQuery()) {
+                    messages = new ArrayList<>();
+                    while (rs.next()) {
+                        messages.add(MessageDao.createMessage(rs));
+                    }
+                    return messages;
+                }
+
+            }
+        }
+    }
 }
