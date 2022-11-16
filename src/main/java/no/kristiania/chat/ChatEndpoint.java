@@ -19,23 +19,30 @@ public class ChatEndpoint {
     @Inject
     private ChatDao chatDao;
 
-    @POST
-    @Consumes(MediaType.APPLICATION_JSON)
-    public void sendMessage(Message message) throws SQLException {
-        messageDao.sendMessage(message);
-    }
-
     @Path("/{userId}")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public List<Message>getChatBySender(@PathParam("userId") int userId) throws SQLException {
         return chatDao.findChatByReceiver(userId);
     }
+    @Path("/messages")
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    public void sendMessage(MessageDto message) throws SQLException {
+        chatDao.insertIntoChat(message.getSenderId(), message.getReceiverId(), messageDao.sendMessage(message.getMessage()));
+    }
+
+    @Path("/messages")
+    @PUT
+    @Consumes(MediaType.APPLICATION_JSON)
+    public void updateMessage(){
+
+    }
 
     @Path("/messages")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public List<Message>getChatByUser() throws SQLException {
+    public List<Message> getAllMessages() throws SQLException {
         return messageDao.showAllMessages();
     }
 

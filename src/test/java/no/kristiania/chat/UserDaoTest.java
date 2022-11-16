@@ -27,5 +27,24 @@ class UserDaoTest {
                 .isNotSameAs(user);
     }
 
+    @Test
+    public void shouldUpdateUserInformation() throws SQLException {
+        var user = SampleChat.sampleUser();
+        userDao.saveUser(user);
+
+        assertThat(userDao.retrieveUser(user.getId()))
+                .usingRecursiveComparison()
+                        .isEqualTo(user)
+                                .isNotSameAs(user);
+
+        var updatedUser = userDao.updateUser(user.getId());
+
+        assertThat(userDao.retrieveUser(user.getId()))
+                .usingRecursiveComparison()
+                .isNotEqualTo(updatedUser);
+
+
+    }
+
 
 }

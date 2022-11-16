@@ -70,51 +70,45 @@ function UserList({setActiveUser}){
     return users.map(u => <button value={u} onClick={(e) => handleOnClick(u)}>{u.username}</button>)
 }
 
-/*function MessageList(){
-    const [isLoading, setIsLoading] = useState(true);2
-    const [messages, setMessages] = useState([]);
-
-
-    useEffect(() => {
-        (async () => {
-            const response = await fetch("/api/chat/messages");
-            if (response.ok){
-                setMessages(await response.json());
-                setIsLoading(false);
-            }
-        })()
-    }, []);
-
-    if (isLoading){
-        return <div>Loading...</div>
+function SendMessage({activeUser}){
+    const example = {
+        receiverId: 1,
+        senderId: 2,
+        message: {
+            subject: "Hello there",
+            messageBody: "The message"
+        }
     }
 
-    function handleOnClick(username){
-
-    }
-
-    return messages.map(m => <button onClick={handleOnClick}>{m.messageBody}</button>)
-}*/
-
-function SendMessage(){
-
+    const [receiver, setReceiver] = useState("");
     const [subject, setSubject] = useState("");
     const [messageBody, setMessageBody] = useState("");
 
     async function handleOnSubmit(e){
         e.preventDefault();
-        await fetch("/api/chat", {
+        await fetch("/api/chat/messages", {
             method: "post",
-            body: JSON.stringify({subject, messageBody}),
+            body: JSON.stringify(example),
             headers: {
                 "Content-Type": "application/json"
             },
         });
     }
 
+
     return(
         <>
             <form onSubmit={handleOnSubmit}>
+                <div>
+                    <label>
+                        TO: {" "}
+                        <input
+                            type={"text"}
+                            value={receiver.id}
+                            onChange={(e) => setReceiver(e.target.value)}
+                        />
+                    </label>
+                </div>
                 <div>
                     <label>
                         Subject: {" "}
@@ -142,6 +136,7 @@ function SendMessage(){
         </>
     )
 }
+
 
 
 function App() {

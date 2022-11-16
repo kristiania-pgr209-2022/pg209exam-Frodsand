@@ -18,7 +18,7 @@ public class MessageDao {
         this.dataSource = dataSource;
     }
 
-    public void sendMessage(Message message) throws SQLException {
+    public int sendMessage(Message message) throws SQLException {
         try (var connection = dataSource.getConnection()) {
             var sql = "insert into message (subject, message_body) values (?, ?)";
             try (var query = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
@@ -30,6 +30,7 @@ public class MessageDao {
                     rs.next();
                     message.setId(rs.getInt(1));
                 }
+                return message.getId();
             }
         }
     }

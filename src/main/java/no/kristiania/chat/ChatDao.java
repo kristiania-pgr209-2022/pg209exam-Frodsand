@@ -16,13 +16,13 @@ public class ChatDao {
         this.dataSource = dataSource;
     }
 
-    public void insertIntoChat(User user, Message message) throws SQLException {
+    public void insertIntoChat(int senderId, int receiverId, int messageId) throws SQLException {
         try (var connection = dataSource.getConnection()) {
             var sql = "insert into chat (sender_id, receiver_id, message_id) values (?, ?, ?)";
             try (var query = connection.prepareStatement(sql)) {
-                query.setInt(1, user.getId());
-                query.setInt(2, user.getId());
-                query.setInt(3, message.getId());
+                query.setInt(1, senderId);
+                query.setInt(2, receiverId);
+                query.setInt(3, messageId);
 
                 query.executeUpdate();
             }
