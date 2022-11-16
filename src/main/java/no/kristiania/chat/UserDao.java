@@ -49,7 +49,7 @@ public class UserDao {
         }
     }
 
-    private User createUser(ResultSet rs) throws SQLException {
+    public static User createUser(ResultSet rs) throws SQLException {
         var user = new User();
         user.setId(rs.getInt("id"));
         user.setUsername(rs.getString("username"));

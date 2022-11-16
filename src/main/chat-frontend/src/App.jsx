@@ -24,18 +24,18 @@ function MessagesReceivedList({activeUser}){
     if(messages != null){
         return (
             <div>
-                messages received:
+                <h4>Messages received: </h4>
                 {
                     messages.map(m =>
                         <div>
-                            Subject: {m.subject}
+                            <div>To: {activeUser.username}</div>
+                            <div>Subject: {m.subject}</div>
                             <div>{m.messageBody} </div>
+                            <div>From: </div>
                             --
                         </div>
-
                     )
                 }
-
             </div>
         )
     } else{
@@ -47,6 +47,52 @@ function MessagesReceivedList({activeUser}){
             no messages
         </div>
     )
+}
+
+function GetSender({sender, setSender}){
+
+    useEffect(() => {
+        (async () => {
+            if(sender != null){
+                const response = await fetch(`/api/chat/sender/${sender.id}`);
+                if (response.ok){
+                    setSender(await response.json());
+                }
+                else {
+                    console.log("error - useEffect in get sender");
+                }
+            }
+        })()
+    }, [sender]);
+
+    return(
+        <div>{sender.username}</div>
+    )
+
+}
+
+function GetReceiver(){
+    const [sender, setSender] = useState({});
+
+
+    useEffect(() => {
+        (async () => {
+            if(activeUser != null){
+                const response = await fetch(`/api/chat/sent/${sender.id}`);
+                if (response.ok){
+                    setSender(await response.json());
+                }
+                else {
+                    console.log("error - useEffect in chatlist");
+                }
+            }
+        })()
+    }, [sender]);
+
+    return(
+        <div>{sender.username}</div>
+    )
+
 }
 
 function MessagesSentList({activeUser}){
@@ -70,12 +116,15 @@ function MessagesSentList({activeUser}){
     if(messages != null){
         return (
             <div>
-                messages sent:
+                <h4>Messages Sent: </h4>
+
                 {
                     messages.map(m =>
                         <div>
-                            Subject: {m.subject}
+                            <div>to:</div>
+                            <div>Subject: {m.subject}</div>
                             <div>{m.messageBody} </div>
+                            <div>From: {activeUser.username}</div>
                             --
                         </div>
 
