@@ -14,7 +14,7 @@ function ChatList({activeUser}){
                     setMessages(await response.json());
                 }
                 else {
-                    console.log("error - useeffect in chatlist");
+                    console.log("error - useEffect in chatlist");
                 }
             }
         })()
@@ -24,10 +24,15 @@ function ChatList({activeUser}){
     if(messages != null){
         return (
             <div>
-                Latest message:
+                messages received:
                 {
                     messages.map(m =>
-                        <div>{m.subject}</div>
+                        <div>
+                            Subject: {m.subject}
+                            <div>{m.messageBody} </div>
+                            --
+                        </div>
+
                     )
                 }
 
@@ -167,6 +172,39 @@ function SendMessage({activeUser, receiver}){
     )
 }
 
+function ActiveUserTitle({activeUser}){
+
+    if(activeUser != null){
+        return (
+            <h3>
+                Active user: {activeUser.username}
+            </h3>
+        )
+    }
+
+    return(
+        <h3>
+            Active user:
+        </h3>
+    )
+}
+
+function ActiveReceiverTitle({receiver}){
+
+    if(receiver != null){
+        return (
+            <h3>
+                You are now sending a message to: {receiver.username}
+            </h3>
+        )
+    }
+
+    return(
+        <h3>
+            You are now sending a message to:
+        </h3>
+    )
+}
 
 
 function App() {
@@ -184,6 +222,8 @@ function App() {
             <h1>
                 Messages
             </h1>
+            <ActiveUserTitle activeUser={activeUser}/>
+            <ActiveReceiverTitle receiver={receiver}/>
             <UserList users={users} setUsers={setUsers} setActiveUser={setActiveUser}/>
             <ReceiverList users={users} setUsers={setUsers} setReceiver={setReceiver}/>
             <SendMessage receiver={receiver} activeUser={activeUser}/>
