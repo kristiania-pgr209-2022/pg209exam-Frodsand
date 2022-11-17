@@ -44,6 +44,7 @@
 Link to azure:
 
 Vår databasemodell:
+![](document/database.png)
 
 
 I vår frontend klikker du på hvem du vil sende en melding fra og hvem du vil sende til.
