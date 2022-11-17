@@ -20,7 +20,6 @@ function MessagesReceivedList({activeUser}){
         })()
     }, [activeUser]);
 
-
     if(messages != null){
         return (
             <div>
@@ -31,7 +30,7 @@ function MessagesReceivedList({activeUser}){
                             <div>To: {activeUser.username}</div>
                             <div>Subject: {m.subject}</div>
                             <div>{m.messageBody} </div>
-                            <div>From: <GetSender activeUser={activeUser}/></div>
+                            <div>From: <GetSender messageId={m.id}/></div>
                             --
                         </div>
                     )
@@ -49,50 +48,51 @@ function MessagesReceivedList({activeUser}){
     )
 }
 
-function GetSender({activeUser}){
+function GetSender({messageId}){
 
     const [sender, setSender] = useState({});
 
     useEffect(() => {
         (async () => {
-            if(sender != null){
-                const response = await fetch(`/api/chat/sender/${activeUser.id}`);
+                const response = await fetch(`/api/chat/sender/${messageId}`);
                 if (response.ok){
                     setSender(await response.json());
                 }
                 else {
                     console.log("error - useEffect in get sender");
                 }
-            }
-        })()
-    }, [sender]);
 
+        })()
+    }, [messageId]);
+
+    console.log("messageId", messageId)
+    console.log("sender", sender)
     return(
-        <div>{sender.username}</div>
+        <div>{sender.username} - {sender.emailAddress}</div>
     )
 
 }
 
-function GetReceiver(){
-    const [sender, setSender] = useState({});
+function GetReceiver({messageId}){
 
+    const [receiver, setReceiver] = useState({});
 
     useEffect(() => {
         (async () => {
-            if(activeUser != null){
-                const response = await fetch(`/api/chat/sent/${sender.id}`);
-                if (response.ok){
-                    setSender(await response.json());
-                }
-                else {
-                    console.log("error - useEffect in chatlist");
-                }
+            const response = await fetch(`/api/chat/receiver/${messageId}`);
+            if (response.ok){
+                setReceiver(await response.json());
             }
-        })()
-    }, [sender]);
+            else {
+                console.log("error - useEffect in get sender");
+            }
 
+        })()
+    }, [messageId]);
+
+    console.log("sender", receiver)
     return(
-        <div>{sender.username}</div>
+        <div>{receiver.username} - {receiver.emailAddress}</div>
     )
 
 }
@@ -123,7 +123,7 @@ function MessagesSentList({activeUser}){
                 {
                     messages.map(m =>
                         <div>
-                            <div>to:</div>
+                            <div>to: <GetReceiver messageId={m.id}/></div>
                             <div>Subject: {m.subject}</div>
                             <div>{m.messageBody} </div>
                             <div>From: {activeUser.username}</div>
@@ -303,15 +303,14 @@ function ActiveReceiverTitle({receiver}){
     )
 }
 
-
 function App() {
     const [activeUser, setActiveUser] = useState(null);
     const [users, setUsers] = useState([]);
-    const [receiver, setReceiver] = useState(null);
+    const [activeReceiver, setActiveReceiver] = useState(null);
 
     console.log("active user", activeUser);
 
-    console.log("receiver", receiver);
+    console.log("receiver", activeReceiver);
 
     return (
     <>
@@ -320,10 +319,10 @@ function App() {
                 Messages
             </h1>
             <ActiveUserTitle activeUser={activeUser}/>
-            <ActiveReceiverTitle receiver={receiver}/>
+            <ActiveReceiverTitle receiver={activeReceiver}/>
             <UserList users={users} setUsers={setUsers} setActiveUser={setActiveUser}/>
-            <ReceiverList users={users} setUsers={setUsers} setReceiver={setReceiver}/>
-            <SendMessage receiver={receiver} activeUser={activeUser}/>
+            <ReceiverList users={users} setUsers={setUsers} setReceiver={setActiveReceiver}/>
+            <SendMessage receiver={activeReceiver} activeUser={activeUser}/>
             <MessagesReceivedList activeUser={activeUser}/>
             <MessagesSentList activeUser={activeUser}/>
         </div>

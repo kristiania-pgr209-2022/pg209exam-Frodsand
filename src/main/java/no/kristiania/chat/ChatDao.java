@@ -57,21 +57,54 @@ public class ChatDao {
         }
     }
 
-    public User retrieveSender(int receiverId) throws SQLException {
+    public User retrieveSender(int messageId) throws SQLException {
         try (var connection = dataSource.getConnection()) {
             var sql = """
-                      select u 
-                      from chat c join user u on c.sender_id = u.id
-                      where receiver_id = ?
-                      """;
+                     select u.*
+                     from chat c join users u on c.sender_id = u.id
+                     where message_id = ?;
+                     """;
             try (var query = connection.prepareStatement(sql)) {
-                query.setInt(1, receiverId);
+                query.setInt(1, messageId);
 
                 try (var rs = query.executeQuery()) {
-                    return UserDao.createUser(rs);
+                    rs.next();
+                   User user = new User();
+                   user.setId(rs.getInt("id"));
+                   user.setUsername(rs.getString("username"));
+                   user.setEmailAddress(rs.getString("email"));
+                   user.setPhoneNumber(rs.getString("phone_number"));
+
+                   return user;
                 }
             }
         }
+
+    }
+
+    public User retrieveReceiver(int messageId) throws SQLException {
+        try (var connection = dataSource.getConnection()) {
+            var sql = """
+                     select u.*
+                     from chat c join users u on c.receiver_id = u.id
+                     where message_id = ?;
+                     """;
+            try (var query = connection.prepareStatement(sql)) {
+                query.setInt(1, messageId);
+
+                try (var rs = query.executeQuery()) {
+                    rs.next();
+                    User user = new User();
+                    user.setId(rs.getInt("id"));
+                    user.setUsername(rs.getString("username"));
+                    user.setEmailAddress(rs.getString("email"));
+                    user.setPhoneNumber(rs.getString("phone_number"));
+
+                    return user;
+                }
+            }
+        }
+
     }
 
 
