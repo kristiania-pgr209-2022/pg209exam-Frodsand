@@ -13,16 +13,16 @@
 
 * [x] Inneholder link til Azure Websites deployment
 * [x] Inneholder en korrekt badge til GitHub Actions
-* [ ] Beskriver hva dere har løst utover minimum
-* [ ] Inneholder et diagram over databasemodellen
+* [x] Beskriver hva dere har løst utover minimum
+* [x] Inneholder et diagram over databasemodellen
 
 ## Koden
 
-* [ ] Oppfyller Java kodestandard med hensyn til indentering og navngiving
+* [x] Oppfyller Java kodestandard med hensyn til indentering og navngiving
 * [x] Er deployet korrekt til Azure Websites
 * [ ] Inneholder tester av HTTP og database-logikk
 * [x] Bruker Flyway DB for å sette opp databasen
-* [ ] Skriver ut nyttige logmeldinger
+* [x] Skriver ut nyttige logmeldinger
 
 ## Basisfunksjonalitet
 
@@ -35,8 +35,8 @@
 
 ## Kvalitet
 
-* [ ] Datamodellen er *normalisert* - dvs at for eksempel navnet på en meldingsavsender ligger i brukertallen, ikke i meldingstabellen
-* [ ] Når man henter informasjon fra flere tabellen brukes join, i stedet for 1-plus-N queries (et for hovedlisten og et per svar for tilleggsinformasjon)
+* [x] Datamodellen er *normalisert* - dvs at for eksempel navnet på en meldingsavsender ligger i brukertallen, ikke i meldingstabellen
+* [x] Når man henter informasjon fra flere tabellen brukes join, i stedet for 1-plus-N queries (et for hovedlisten og et per svar for tilleggsinformasjon)
 * [ ] Det finnes test for alle JAX-RS endpoints og alle DAO-er
 
 
@@ -51,26 +51,31 @@ I vår databasemodell har vi valgt å bruke tre tabeller:
 - Chat har kolonnene id, senderid, reciverid og messageid
 - Meldinger har kolonnene id, messagebody og emne
 
-Chat-tabeller fungerer som en tråd mellom messages og user tabellene. En chat/tråd må ha 1 eller flere users. 
+Chat-tabellen fungerer som en tråd mellom messages og user tabellene. En chat/tråd må ha 1 eller flere users. 
 Users trenger ikke ha en chat/tråd, men kan ha flere chatter/tråder.
 Messages kan kun ha en chat/tråd, da vi har valgt at det ikke er mulig å sende gruppemeldinger. 
 En chat/tråd trenger ikke ha en messages, men kan ha flere meddages.
 
 I vår frontend klikker du på hvem du vil sende en melding fra og hvem du vil sende til.
 For å se meldingshistorikken for hver bruker, klikk på brukernavnet under sender. 
-Du ser også hvem som er sender og hvem som er receiver.
+Du ser også hvem som er sender og hvem som er receiver og kan med det svaret ved å endre receiver med et enkelt tasketrykk.
 
-I vår frontend er det kun mulig å sende/svare og se meldinger som bruker skrevet eller mottatt.
-For att minimera tiden på frontend kode, har vi i stedet løst flere funksjonaliteter ved hjelp av tester. 
+I vår frontend er det kun mulig å sende/svare og se meldinger som bruker har skrevet eller mottatt.
+For å minimere tid brukt på frontend kode, har vi i stedet løst flere funksjonaliteter ved hjelp av tester. 
 I testene vil du se at det er mulig å slette en melding,
-oppdatere informasjon om en bruker, returnere melding etter emne, opprette ny bruker, se melding basert på bruker.
+oppdatere informasjon om en bruker, returnere melding etter emne, opprette ny bruker, samt se melding basert på bruker.
 
-Samarbeidet under dette prosjektet har gått veldig bra. Vi har både jobbet sammen i skolen, på discord samtidige 
-som vi delar skjerm eller hver for seg med olike oppgaver. 
-Vi har begge committed til Github fra begge Github-kontoene. Men store deler av koden er skrevet fra Fredriks pc og 
-deploy til Azure, å legge til en frontend och noe kode gjøres fra Rebeckas pc.
-Selv om Fredrik har skrevet store deler av koden, har han alltid vært flink til å forklare hva han har gjort slik at 
-Rebecka forstår koden og enkelt ta over.
+Samarbeidet under dette prosjektet har gått veldig bra. Vi har både jobbet sammen på skolen, på discord samtidig 
+som vi deler skjerm eller hver for seg med ulike oppgaver. 
+Vi har begge committed til Github fra begge Github-kontoene. 
+Samtidig har vi vært flinke til å ta hverandre gjennom vår kode for at begge skal forstå hva den andre har gjort.
+
+Funksjonalitet utover minimum
+- Kan endre informasjon om eksisterende bruker
+- Bruker lagrer i tillegg mobil nummer
+- Meldinger viser avsender og mottaker (gjort med join)
+- meldinger kan slettes
+
 
 
 
