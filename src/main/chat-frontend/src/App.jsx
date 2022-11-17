@@ -14,7 +14,7 @@ function MessagesReceivedList({activeUser}){
                     setMessages(await response.json());
                 }
                 else {
-                    console.log("error - useEffect in chatlist");
+                    console.log("error - useEffect in MessagesReceivedList");
                 }
             }
         })()
@@ -65,8 +65,6 @@ function GetSender({messageId}){
         })()
     }, [messageId]);
 
-    console.log("messageId", messageId)
-    console.log("sender", sender)
     return(
         <div>{sender.username} - {sender.emailAddress}</div>
     )
@@ -84,13 +82,12 @@ function GetReceiver({messageId}){
                 setReceiver(await response.json());
             }
             else {
-                console.log("error - useEffect in get sender");
+                console.log("error - useEffect in get receiver");
             }
 
         })()
     }, [messageId]);
 
-    console.log("sender", receiver)
     return(
         <div>{receiver.username} - {receiver.emailAddress}</div>
     )
@@ -108,7 +105,7 @@ function MessagesSentList({activeUser}){
                     setMessages(await response.json());
                 }
                 else {
-                    console.log("error - useEffect in chatlist");
+                    console.log("error - useEffect in MessagesSentList");
                 }
             }
         })()
@@ -164,7 +161,6 @@ function UserList({setActiveUser, users, setUsers}){
     }
 
     function handleOnClick(input){
-        console.log("hallo hallo");
         setActiveUser(input);
     }
 
@@ -228,7 +224,6 @@ function SendMessage({activeUser, receiver}){
             }
         }
 
-            console.log("Her er jeg!", activeUser);
             await fetch("/api/chat/messages", {
                 method: "post",
                 body: JSON.stringify(inputMessage),
@@ -307,10 +302,6 @@ function App() {
     const [activeUser, setActiveUser] = useState(null);
     const [users, setUsers] = useState([]);
     const [activeReceiver, setActiveReceiver] = useState(null);
-
-    console.log("active user", activeUser);
-
-    console.log("receiver", activeReceiver);
 
     return (
     <>

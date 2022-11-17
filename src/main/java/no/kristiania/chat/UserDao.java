@@ -58,21 +58,17 @@ public class UserDao {
         return user;
     }
 
-    public User updateUser(int userId) throws SQLException {
-        var selectedUser = retrieveUser(userId);
-
+    public void updateUser(int userId, String updatedUsername, String updatedEmail, String updatedPhone) throws SQLException {
         try (var connection = dataSource.getConnection()) {
             var sql = "update users set username = ?, email = ?, phone_number = ? where id = ?";
             try (var query = connection.prepareStatement(sql)) {
-                query.setString(1, selectedUser.getUsername());
-                query.setString(2, selectedUser.getEmailAddress());
-                query.setString(3,selectedUser.getPhoneNumber());
-                query.setInt(4, selectedUser.getId());
+                query.setString(1, updatedUsername);
+                query.setString(2, updatedEmail);
+                query.setString(3, updatedPhone);
+                query.setInt(4, userId);
 
                 query.executeUpdate();
-                return selectedUser;
             }
-
         }
     }
 
@@ -96,6 +92,4 @@ public class UserDao {
         }
         return users;
     }
-
-
 }

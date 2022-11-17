@@ -13,6 +13,7 @@ public class ChatEndpoint {
 
     @Inject
     private MessageDao messageDao;
+
     @Inject
     private UserDao userDao;
 
@@ -47,20 +48,12 @@ public class ChatEndpoint {
         return chatDao.retrieveReceiver(messageId);
     }
 
-
     @Path("/messages")
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     public void sendMessage(MessageDto message) throws SQLException {
         messageDao.sendMessage(message.getMessage());
         chatDao.insertIntoChat(message.getSenderId(), message.getReceiverId(), message.getMessage().getId());
-    }
-
-    @Path("/messages")
-    @PUT
-    @Consumes(MediaType.APPLICATION_JSON)
-    public void updateMessage(){
-
     }
 
     @Path("/messages")

@@ -32,7 +32,6 @@ public class ChatServer {
                 createApp(dataSource),
                 createAppContext()
         ));
-
     }
 
     private ServletContextHandler createApp(DataSource dataSource) {
@@ -84,7 +83,5 @@ public class ChatServer {
                 .map(Integer::parseInt)
                 .orElse(8080);
         new ChatServer(port, DbConnector.getDataSource()).start();
-
     }
-
 }
