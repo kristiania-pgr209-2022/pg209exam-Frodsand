@@ -45,9 +45,10 @@ public class ChatServerTest {
                 .build();
 
         JsonObject messageDto = Json.createObjectBuilder()
-                        .add("senderId", 1)
-                                .add("receiverId", 2)
-                                        .add("message", message).build();
+                .add("senderId", 1)
+                .add("receiverId", 2)
+                .add("message", message)
+                .build();
 
         postConnection.getOutputStream().write(messageDto.toString().getBytes(StandardCharsets.UTF_8));
 

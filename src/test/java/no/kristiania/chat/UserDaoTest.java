@@ -29,7 +29,12 @@ class UserDaoTest {
 
     @Test
     public void shouldUpdateUserInformation() throws SQLException {
-        var user = SampleChat.sampleUser();
+        var user = new User();
+
+        user.setUsername("John");
+        user.setEmailAddress("john@doe.com");
+        user.setPhoneNumber("11111111");
+
         userDao.saveUser(user);
 
         assertThat(userDao.retrieveUser(user.getId()))
@@ -37,11 +42,13 @@ class UserDaoTest {
                         .isEqualTo(user)
                                 .isNotSameAs(user);
 
-        var updatedUser = userDao.updateUser(user.getId());
+
+        userDao.updateUser(user.getId(), "Jane", "jane@doe.com", "22222222");
 
         assertThat(userDao.retrieveUser(user.getId()))
                 .usingRecursiveComparison()
-                .isNotEqualTo(updatedUser);
+                .isNotEqualTo(user);
+
 
 
     }
