@@ -29,7 +29,6 @@ public class ChatServerTest {
         assertThat(connection.getInputStream())
                 .asString(StandardCharsets.UTF_8)
                 .contains("<title>Chat</title>");
-
     }
 
     @Test

@@ -39,19 +39,13 @@ class UserDaoTest {
 
         assertThat(userDao.retrieveUser(user.getId()))
                 .usingRecursiveComparison()
-                        .isEqualTo(user)
-                                .isNotSameAs(user);
-
+                .isEqualTo(user)
+                .isNotSameAs(user);
 
         userDao.updateUser(user.getId(), "Jane", "jane@doe.com", "22222222");
 
         assertThat(userDao.retrieveUser(user.getId()))
                 .usingRecursiveComparison()
                 .isNotEqualTo(user);
-
-
-
     }
-
-
 }

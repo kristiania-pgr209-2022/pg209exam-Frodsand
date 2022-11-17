@@ -5,6 +5,7 @@ public class Message {
     private int id;
 
     private String subject;
+
     private String messageBody;
 
     public int getId() {

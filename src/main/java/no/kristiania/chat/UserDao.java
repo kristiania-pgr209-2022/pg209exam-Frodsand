@@ -59,7 +59,6 @@ public class UserDao {
     }
 
     public void updateUser(int userId, String updatedUsername, String updatedEmail, String updatedPhone) throws SQLException {
-
         try (var connection = dataSource.getConnection()) {
             var sql = "update users set username = ?, email = ?, phone_number = ? where id = ?";
             try (var query = connection.prepareStatement(sql)) {
@@ -69,9 +68,7 @@ public class UserDao {
                 query.setInt(4, userId);
 
                 query.executeUpdate();
-
             }
-
         }
     }
 
@@ -95,6 +92,4 @@ public class UserDao {
         }
         return users;
     }
-
-
 }

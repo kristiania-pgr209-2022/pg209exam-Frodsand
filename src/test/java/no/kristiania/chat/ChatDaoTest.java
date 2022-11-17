@@ -45,8 +45,6 @@ class ChatDaoTest {
         assertThat(chatDao.findChatByReceiver(user2.getId()))
                 .extracting(Message::getId)
                 .contains(message1.getId());
-
-
     }
 
     @Test
@@ -71,7 +69,5 @@ class ChatDaoTest {
         assertThat(chatDao.findChatBySender(user2.getId()))
                 .extracting(Message::getId)
                 .contains(message2.getId());
-
-
     }
 }
