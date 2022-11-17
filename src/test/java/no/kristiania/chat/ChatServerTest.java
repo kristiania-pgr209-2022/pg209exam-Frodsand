@@ -34,7 +34,7 @@ public class ChatServerTest {
 
     @Test
     public void shouldPostAndGetMessage() throws IOException {
-        var postConnection = createConnection("/api/chat");
+        var postConnection = createConnection("/api/chat/messages");
         postConnection.setRequestMethod("POST");
         postConnection.setRequestProperty("Content-Type", "application/json");
         postConnection.setDoOutput(true);
@@ -43,7 +43,13 @@ public class ChatServerTest {
                 .add("subject", "Hello")
                 .add("messageBody", "Hello World!")
                 .build();
-        postConnection.getOutputStream().write(message.toString().getBytes(StandardCharsets.UTF_8));
+
+        JsonObject messageDto = Json.createObjectBuilder()
+                        .add("senderId", 1)
+                                .add("receiverId", 2)
+                                        .add("message", message).build();
+
+        postConnection.getOutputStream().write(messageDto.toString().getBytes(StandardCharsets.UTF_8));
 
         assertThat(postConnection.getResponseCode()).isEqualTo(204);
 
