@@ -134,7 +134,6 @@
                             <includes>
                                 <include>*.properties</include>
                             </includes>
-                            <targetPath>/site/wwwroot</targetPath>
                         </resource>
                     </resources>
                 </deployment>
