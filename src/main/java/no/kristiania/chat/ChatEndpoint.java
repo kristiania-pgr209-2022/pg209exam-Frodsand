@@ -69,4 +69,11 @@ public class ChatEndpoint {
     public List<User> getAllUsers() throws SQLException {
         return userDao.showAllUsers();
     }
+
+    @Path("/user")
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    public void addUser(User user) throws SQLException {
+        userDao.saveUser(user);
+    }
 }

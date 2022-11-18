@@ -222,6 +222,29 @@ public class ChatServerTest {
         assertThat(getConnection.getInputStream()).asString(StandardCharsets.UTF_8).contains("\"emailAddress\":\"Ole@andeby.com\",\"id\":1,\"phoneNumber\":\"33333333\",\"username\":\"Ole\"");
     }
 
+    @Test
+    public void shouldPostAndGetUser() throws IOException {
+        var postConnection = createConnection("/api/chat/user");
+        postConnection.setRequestMethod("POST");
+        postConnection.setRequestProperty("Content-Type", "application/json");
+        postConnection.setDoOutput(true);
+
+        JsonObject user = Json.createObjectBuilder()
+                .add("username", "Ole")
+                .add("email", "Ole@andeby.com")
+                .add("phoneNumber", "33333333")
+                .build();
+
+        postConnection.getOutputStream().write(user.toString().getBytes(StandardCharsets.UTF_8));
+
+        assertThat(postConnection.getResponseCode()).isEqualTo(204);
+
+        var getConnection = createConnection("/api/chat/user");
+        assertThat(getConnection.getInputStream())
+                .asString(StandardCharsets.UTF_8)
+                .contains("\"emailAddress\":\"Ole@andeby.com\",\"id\":1,\"phoneNumber\":\"33333333\",\"username\":\"Ole\"");
+    }
+
 
 
     private HttpURLConnection createConnection(String path) throws IOException {
