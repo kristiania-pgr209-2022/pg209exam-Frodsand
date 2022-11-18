@@ -42,6 +42,7 @@
 
 ### Chat  
 Link to azure:
+https://pgr209-exam-2022-1009.azurewebsites.net/
 
 Vår databasemodell:
 ![](document/database.png)

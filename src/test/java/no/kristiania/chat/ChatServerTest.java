@@ -9,7 +9,6 @@ import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
-import java.sql.SQLException;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -19,7 +18,7 @@ public class ChatServerTest {
 
     @BeforeEach
     void setUp() throws Exception {
-        var dataSource = H2MemoryDataSource.createH2TestDataSource();;
+        var dataSource = H2MemoryDataSource.createH2TestDataSource();
         server = new ChatServer(0, dataSource);
         server.start();
     }
@@ -104,8 +103,126 @@ public class ChatServerTest {
         var getConnection = createConnection("/api/chat/received/1");
 
         assertThat(getConnection.getInputStream()).asString(StandardCharsets.UTF_8).contains("\"messageBody\":\"Hello World!\"");
-
     }
+
+    @Test
+    public void shouldGetSentMessageByUser() throws IOException{
+        var postConnection = createConnection("/api/chat/messages");
+        postConnection.setRequestMethod("POST");
+        postConnection.setRequestProperty("Content-Type", "application/json");
+        postConnection.setDoOutput(true);
+
+        JsonObject receiver = Json.createObjectBuilder()
+                .add("id", 1)
+                .add("username", "Receiver")
+                .add("email", "receiver@test.test")
+                .add("phoneNumber", "11111111")
+                .build();
+
+        JsonObject sender = Json.createObjectBuilder()
+                .add("id", 2)
+                .add("username", "Sender")
+                .add("email", "sender@test.test")
+                .add("phoneNumber", "11111111")
+                .build();
+
+
+        JsonObject message = Json.createObjectBuilder()
+                .add("subject", "Goodbye")
+                .add("messageBody", "Goodbye world!")
+                .build();
+
+        JsonObject messageDto = Json.createObjectBuilder()
+                .add("senderId", sender.getInt("id"))
+                .add("receiverId", receiver.getInt("id"))
+                .add("message", message)
+                .build();
+
+        postConnection.getOutputStream().write(messageDto.toString().getBytes(StandardCharsets.UTF_8));
+        assertThat(postConnection.getResponseCode()).isEqualTo(204);
+        var getConnection = createConnection("/api/chat/sent/2");
+        assertThat(getConnection.getInputStream()).asString(StandardCharsets.UTF_8).contains("\"messageBody\":\"Goodbye world!\",\"subject\":\"Goodbye\"");
+    }
+
+    @Test
+    public void shouldGetSender() throws IOException {
+        var postConnection = createConnection("/api/chat/messages");
+        postConnection.setRequestMethod("POST");
+        postConnection.setRequestProperty("Content-Type", "application/json");
+        postConnection.setDoOutput(true);
+
+        JsonObject receiver = Json.createObjectBuilder()
+                .add("id", 1)
+                .add("username", "Ole")
+                .add("email", "Ole@andeby.com")
+                .add("phoneNumber", "33333333")
+                .build();
+
+        JsonObject sender = Json.createObjectBuilder()
+                .add("id", 2)
+                .add("username", "Dole")
+                .add("email", "Dole@andeby.com")
+                .add("phoneNumber", "22222222")
+                .build();
+
+
+        JsonObject message = Json.createObjectBuilder()
+                .add("subject", "Goodbye")
+                .add("messageBody", "Goodbye world!")
+                .build();
+
+        JsonObject messageDto = Json.createObjectBuilder()
+                .add("senderId", sender.getInt("id"))
+                .add("receiverId", receiver.getInt("id"))
+                .add("message", message)
+                .build();
+
+        postConnection.getOutputStream().write(messageDto.toString().getBytes(StandardCharsets.UTF_8));
+        assertThat(postConnection.getResponseCode()).isEqualTo(204);
+        var getConnection = createConnection("/api/chat/sender/2");
+        assertThat(getConnection.getInputStream()).asString(StandardCharsets.UTF_8).contains("\"emailAddress\":\"Dole@andeby.com\",\"id\":2,\"phoneNumber\":\"22222222\",\"username\":\"Dole\"");
+    }
+
+    @Test
+    public void shouldGetReceiver() throws IOException {
+        var postConnection = createConnection("/api/chat/messages");
+        postConnection.setRequestMethod("POST");
+        postConnection.setRequestProperty("Content-Type", "application/json");
+        postConnection.setDoOutput(true);
+
+        JsonObject receiver = Json.createObjectBuilder()
+                .add("id", 1)
+                .add("username", "Ole")
+                .add("email", "Ole@andeby.com")
+                .add("phoneNumber", "33333333")
+                .build();
+
+        JsonObject sender = Json.createObjectBuilder()
+                .add("id", 2)
+                .add("username", "Dole")
+                .add("email", "Dole@andeby.com")
+                .add("phoneNumber", "22222222")
+                .build();
+
+
+        JsonObject message = Json.createObjectBuilder()
+                .add("subject", "Goodbye")
+                .add("messageBody", "Goodbye world!")
+                .build();
+
+        JsonObject messageDto = Json.createObjectBuilder()
+                .add("senderId", sender.getInt("id"))
+                .add("receiverId", receiver.getInt("id"))
+                .add("message", message)
+                .build();
+
+        postConnection.getOutputStream().write(messageDto.toString().getBytes(StandardCharsets.UTF_8));
+        assertThat(postConnection.getResponseCode()).isEqualTo(204);
+        var getConnection = createConnection("/api/chat/receiver/2");
+        assertThat(getConnection.getInputStream()).asString(StandardCharsets.UTF_8).contains("\"emailAddress\":\"Ole@andeby.com\",\"id\":1,\"phoneNumber\":\"33333333\",\"username\":\"Ole\"");
+    }
+
+
 
     private HttpURLConnection createConnection(String path) throws IOException {
         return (HttpURLConnection) new URL(server.getUrl(), path).openConnection();
