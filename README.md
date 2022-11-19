@@ -62,9 +62,9 @@ Der kan du velge hvilken bruker du ønsker å representere. Deretter vises samti
 Både meldinger sendt og mottatt av denne brkeren vises. Du kan også se hvem brukeren har mottatt meldinger fra.
 Etter det kan du velge hvem du vil sende en melding til, skrive inn et subject og en body. Klikk send for å send meldingen.
 Ønsker du å se meldingen du sendte, klikker du på brukeren du har sendt til (han er da en aktiv user), du finner meldingen hans under mottatte meldinger.
-Her kan du så, ved å velge den tidligere avsenderen mottaker, svare på meldingen.
+Her kan du så, ved å velge den tidligere avsenderen som mottaker, svare på meldingen.
 
-Vi har også implementert mer funksjonalitet, men valgt å vise dette gjennom tester i og ikke i GUI.
+Vi har også implementert mer funksjonalitet, men valgt å vise dette gjennom tester og ikke i GUI.
 
 I testene vil du se at det er mulig å:
 
