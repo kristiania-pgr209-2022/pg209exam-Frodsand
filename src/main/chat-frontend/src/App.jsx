@@ -27,7 +27,7 @@ function MessagesReceivedList({activeUser}){
                 {
                     messages.map(m =>
                         <div>
-                            <div>To: {activeUser.username}</div>
+                            <div>To: {activeUser.username} - {activeUser.emailAddress}</div>
                             <div>Subject: {m.subject}</div>
                             <div>{m.messageBody} </div>
                             <div>From: <GetSender messageId={m.id}/></div>
@@ -123,7 +123,7 @@ function MessagesSentList({activeUser}){
                             <div>to: <GetReceiver messageId={m.id}/></div>
                             <div>Subject: {m.subject}</div>
                             <div>{m.messageBody} </div>
-                            <div>From: {activeUser.username}</div>
+                            <div>From: {activeUser.username} - {activeUser.emailAddress}</div>
                             --
                         </div>
 
