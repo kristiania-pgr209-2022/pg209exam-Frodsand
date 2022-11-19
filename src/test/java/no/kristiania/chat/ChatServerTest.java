@@ -230,8 +230,8 @@ public class ChatServerTest {
         postConnection.setDoOutput(true);
 
         JsonObject user = Json.createObjectBuilder()
-                .add("username", "Dolly")
-                .add("emailAddress", "Dolly@andeby.com")
+                .add("username", "Kalle Anka")
+                .add("emailAddress", "Kalleanka@andeby.com")
                 .add("phoneNumber", "12345678")
                 .build();
 
@@ -242,7 +242,7 @@ public class ChatServerTest {
         var getConnection = createConnection("/api/chat/user");
         assertThat(getConnection.getInputStream())
                 .asString(StandardCharsets.UTF_8)
-                .contains("\"emailAddress\":\"Dolly@andeby.com\",\"id\":4,\"phoneNumber\":\"12345678\",\"username\":\"Dolly\"");
+                .contains("\"username\":\"Kalle Anka\"");
     }
 
     @Test
