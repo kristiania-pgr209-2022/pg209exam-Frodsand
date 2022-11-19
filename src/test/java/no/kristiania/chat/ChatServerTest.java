@@ -41,8 +41,8 @@ public class ChatServerTest {
         postConnection.setDoOutput(true);
 
         JsonObject message = Json.createObjectBuilder()
-                .add("subject", "Hello")
-                .add("messageBody", "Hello World!")
+                .add("subject", "Test")
+                .add("messageBody", "Test post and get message")
                 .build();
 
         JsonObject messageDto = Json.createObjectBuilder()
@@ -58,7 +58,7 @@ public class ChatServerTest {
         var getConnection = createConnection("/api/chat/messages");
         assertThat(getConnection.getInputStream())
                 .asString(StandardCharsets.UTF_8)
-                .contains("\"messageBody\":\"Hello World!\"");
+                .contains("\"messageBody\":\"Test post and get message\"");
     }
 
     // Uses the endpoint "/api/chat/messages" to post a message
@@ -86,8 +86,8 @@ public class ChatServerTest {
 
 
         JsonObject message = Json.createObjectBuilder()
-                .add("subject", "Hello")
-                .add("messageBody", "Hello World!")
+                .add("subject", "Test")
+                .add("messageBody", "Test Message")
                 .build();
 
         JsonObject messageDto = Json.createObjectBuilder()
@@ -102,7 +102,7 @@ public class ChatServerTest {
 
         var getConnection = createConnection("/api/chat/received/1");
 
-        assertThat(getConnection.getInputStream()).asString(StandardCharsets.UTF_8).contains("\"messageBody\":\"Hello World!\"");
+        assertThat(getConnection.getInputStream()).asString(StandardCharsets.UTF_8).contains("\"messageBody\":\"Test Message\"");
     }
 
     @Test
@@ -206,8 +206,8 @@ public class ChatServerTest {
 
 
         JsonObject message = Json.createObjectBuilder()
-                .add("subject", "Goodbye")
-                .add("messageBody", "Goodbye world!")
+                .add("subject", "Test")
+                .add("messageBody", "Test Message")
                 .build();
 
         JsonObject messageDto = Json.createObjectBuilder()
@@ -218,7 +218,7 @@ public class ChatServerTest {
 
         postConnection.getOutputStream().write(messageDto.toString().getBytes(StandardCharsets.UTF_8));
         assertThat(postConnection.getResponseCode()).isEqualTo(204);
-        var getConnection = createConnection("/api/chat/receiver/2");
+        var getConnection = createConnection("/api/chat/receiver/1");
         assertThat(getConnection.getInputStream()).asString(StandardCharsets.UTF_8).contains("\"emailAddress\":\"Ole@andeby.com\",\"id\":1,\"phoneNumber\":\"33333333\",\"username\":\"Ole\"");
     }
 
@@ -230,9 +230,9 @@ public class ChatServerTest {
         postConnection.setDoOutput(true);
 
         JsonObject user = Json.createObjectBuilder()
-                .add("username", "Ole")
-                .add("email", "Ole@andeby.com")
-                .add("phoneNumber", "33333333")
+                .add("username", "Dolly")
+                .add("emailAddress", "Dolly@andeby.com")
+                .add("phoneNumber", "12345678")
                 .build();
 
         postConnection.getOutputStream().write(user.toString().getBytes(StandardCharsets.UTF_8));
@@ -242,36 +242,21 @@ public class ChatServerTest {
         var getConnection = createConnection("/api/chat/user");
         assertThat(getConnection.getInputStream())
                 .asString(StandardCharsets.UTF_8)
-                .contains("\"emailAddress\":\"Ole@andeby.com\",\"id\":1,\"phoneNumber\":\"33333333\",\"username\":\"Ole\"");
+                .contains("\"emailAddress\":\"Dolly@andeby.com\",\"id\":4,\"phoneNumber\":\"12345678\",\"username\":\"Dolly\"");
     }
 
     @Test
     public void shouldUpdateUser() throws IOException {
-        var postConnection = createConnection("api/chat/user");
-        postConnection.setRequestMethod("POST");
-        postConnection.setRequestProperty("Content-Type", "application/json");
-        postConnection.setDoOutput(true);
-
-        JsonObject user = Json.createObjectBuilder()
-                .add("username", "Ole")
-                .add("emailAddress", "Ole@andeby.com")
-                .add("phoneNumber", "33333333")
-                .build();
-
-        postConnection.getOutputStream().write(user.toString().getBytes(StandardCharsets.UTF_8));
-
-        assertThat(postConnection.getResponseCode()).isEqualTo(204);
-
         var putConnection = createConnection("/api/chat/user");
         putConnection.setRequestMethod("PUT");
         putConnection.setRequestProperty("Content-Type", "application/json");
         putConnection.setDoOutput(true);
 
         JsonObject updatedUser = Json.createObjectBuilder()
-                .add("id", 1)
-                .add("username", "Dolly")
-                .add("emailAddress", "Dolly@andeby.com")
-                .add("phoneNumber", "12345678")
+                .add("id", 4)
+                .add("username", "Dolly updated")
+                .add("emailAddress", "Dolly@andeby.com updated")
+                .add("phoneNumber", "12345678 updated")
                 .build();
 
         putConnection.getOutputStream().write(updatedUser.toString().getBytes(StandardCharsets.UTF_8));
@@ -281,11 +266,9 @@ public class ChatServerTest {
         var getConnection = createConnection("/api/chat/user");
         assertThat(getConnection.getInputStream())
                 .asString(StandardCharsets.UTF_8)
-                .contains("\"emailAddress\":\"Dolly@andeby.com\",\"id\":1,\"phoneNumber\":\"12345678\",\"username\":\"Dolly\"");
+                .contains("\"emailAddress\":\"Dolly@andeby.com updated\",\"id\":4,\"phoneNumber\":\"12345678 updated\",\"username\":\"Dolly updated\"");
 
     }
-
-
 
     private HttpURLConnection createConnection(String path) throws IOException {
         return (HttpURLConnection) new URL(server.getUrl(), path).openConnection();

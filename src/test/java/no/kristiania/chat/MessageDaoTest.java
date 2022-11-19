@@ -37,7 +37,7 @@ class MessageDaoTest {
                 .isEqualTo(message)
                 .isNotSameAs(message);
 
-        messageDao.deleteMessage(message.getId());
+        messageDao.deleteMessage(message);
 
         assertThat(messageDao.retrieveMessage(message.getId()))
                 .usingRecursiveComparison()

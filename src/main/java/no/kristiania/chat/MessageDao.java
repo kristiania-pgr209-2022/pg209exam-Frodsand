@@ -52,11 +52,11 @@ public class MessageDao {
         }
     }
 
-    public void deleteMessage(int id) throws SQLException {
+    public void deleteMessage(Message message) throws SQLException {
         try (var connection = dataSource.getConnection()) {
             var sql = "delete from message where id = ?";
             try (var query = connection.prepareStatement(sql)) {
-                query.setInt(1, id);
+                query.setInt(1, message.getId());
 
                 query.executeUpdate();
             }
