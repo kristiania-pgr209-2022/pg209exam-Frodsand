@@ -76,4 +76,12 @@ public class ChatEndpoint {
     public void addUser(User user) throws SQLException {
         userDao.saveUser(user);
     }
+
+    @Path("/user")
+    @PUT
+    @Consumes(MediaType.APPLICATION_JSON)
+    public void updateUser(User updatedUser) throws SQLException {
+        userDao.updateUser(updatedUser.getId(), updatedUser.getUsername(), updatedUser.getEmailAddress(), updatedUser.getPhoneNumber());
+    }
+
 }
