@@ -242,7 +242,7 @@ public class ChatServerTest {
         var getConnection = createConnection("/api/chat/user");
         assertThat(getConnection.getInputStream())
                 .asString(StandardCharsets.UTF_8)
-                .contains("\"emailAddress\":\"Dolly@andeby.com\",\"id\":4,\"phoneNumber\":\"12345678\",\"username\":\"Dolly\"");
+                .contains("\"username\":\"Dolly\"");
     }
 
     @Test
