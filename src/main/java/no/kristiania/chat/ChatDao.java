@@ -79,6 +79,29 @@ public class ChatDao {
         }
     }
 
+    public List<Message> getChatBetweenTwoUsers(int receiverId, int senderId) throws SQLException {
+        try (var connection = dataSource.getConnection()) {
+            var sql = """
+                    select m.*
+                    from chat c join message m on c.message_id = m.id
+                    where receiver_id = ? AND sender_id = ?
+                    """;
+            try (var query = connection.prepareStatement(sql)) {
+                query.setInt(1, receiverId);
+                query.setInt(2, senderId);
+
+                ArrayList<Message> messages;
+                try (var rs = query.executeQuery()) {
+                    messages = new ArrayList<>();
+                    while (rs.next()) {
+                        messages.add(MessageDao.createMessage(rs));
+                    }
+                    return messages;
+                }
+            }
+        }
+    }
+
     private List<Message> getMessages(int userId, Connection connection, String sql) throws SQLException {
         try (var query = connection.prepareStatement(sql)) {
             query.setInt(1, userId);

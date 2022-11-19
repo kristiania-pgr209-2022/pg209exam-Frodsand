@@ -20,7 +20,7 @@
 
 * [x] Oppfyller Java kodestandard med hensyn til indentering og navngiving
 * [x] Er deployet korrekt til Azure Websites
-* [ ] Inneholder tester av HTTP og database-logikk
+* [x] Inneholder tester av HTTP og database-logikk
 * [x] Bruker Flyway DB for å sette opp databasen
 * [x] Skriver ut nyttige logmeldinger
 
@@ -37,7 +37,7 @@
 
 * [x] Datamodellen er *normalisert* - dvs at for eksempel navnet på en meldingsavsender ligger i brukertallen, ikke i meldingstabellen
 * [x] Når man henter informasjon fra flere tabellen brukes join, i stedet for 1-plus-N queries (et for hovedlisten og et per svar for tilleggsinformasjon)
-* [ ] Det finnes test for alle JAX-RS endpoints og alle DAO-er
+* [x] Det finnes test for alle JAX-RS endpoints og alle DAO-er
 
 
 ### Chat  
@@ -72,10 +72,10 @@ Vi har begge committed til Github fra begge Github-kontoene.
 Samtidig har vi vært flinke til å ta hverandre gjennom vår kode for at begge skal forstå hva den andre har gjort.
 
 Funksjonalitet utover minimum
-- Kan endre informasjon om eksisterende bruker
+- Kan endre informasjon om eksisterende bruker (vist gjennom tester i UserDaoTest og ChatServerTest)
 - Bruker lagrer i tillegg mobil nummer
-- Meldinger viser avsender og mottaker (gjort med join)
-- meldinger kan slettes
+- Meldinger viser avsender og mottaker (gjort med join, vist i tester og på frontend)
+- meldinger kan slettes (vist med test i MessageDaoTest)
 
 
 
