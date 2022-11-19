@@ -55,14 +55,15 @@ I vår databasemodell har vi valgt å bruke tre tabeller:
 Chat-tabellen fungerer som en tråd mellom messages og user tabellene. En chat/tråd må ha 1 eller flere users. 
 Users trenger ikke ha en chat/tråd, men kan ha flere chatter/tråder.
 Messages kan kun ha en chat/tråd, da vi har valgt at det ikke er mulig å sende gruppemeldinger. 
-En chat/tråd trenger ikke ha en messages, men kan ha flere meddages.
+En chat/tråd trenger ikke ha en messages, men kan ha flere messages.
 
-I vår frontend klikker du på hvem du vil sende en melding fra og hvem du vil sende til.
-For å se meldingshistorikken for hver bruker, klikk på brukernavnet under sender. 
-Du ser også hvem som er sender og hvem som er receiver og kan med det svaret ved å endre receiver med et enkelt tasketrykk.
-
-I vår frontend er det kun mulig å sende/svare og se meldinger som bruker har skrevet eller mottatt.
-For å minimere tid brukt på frontend kode, har vi i stedet løst flere funksjonaliteter ved hjelp av tester. 
+Vi har valgt å sette fokus på backend, fordi det er en examen i backend. Vår frontend er derfor veldig enkel med alle funksjoner på første side.
+Der kan du velge hvilken bruker du ønsker å representere. Deretter tas samtidig denne brukerens meldingshistorikk frem. 
+Både mottatt og sendt meldinger fra denne brukeren. Du kan også se hvem brukeren mottatt meldinger fra.
+Etter det kan du velge hvem du vil sende en melding til, skrive inn et subject og en body. Klikk send for å send meldingen.
+Ønsker du å se meldingen du sendte, klikker du på brukeren du har sendt til (han er da en aktiv user), du finner meldingen hans under mottatte meldinger.
+Vi har løst fler funktioner i tester men valgt att ikke gjøre dette i vår frontend.
+ 
 
 I testene vil du se at det er mulig å:
 
