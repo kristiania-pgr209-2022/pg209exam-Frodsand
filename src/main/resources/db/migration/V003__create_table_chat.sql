@@ -1,0 +1,1 @@
+create table chat (id int identity primary key, sender_id int references users(id) not null, receiver_id int references users(id) not null, message_id int references message(id) not null)
