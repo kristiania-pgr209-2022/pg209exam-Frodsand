@@ -48,9 +48,9 @@ Vår databasemodell:
 ![](document/database.png)
 
 I vår databasemodell har vi valgt å bruke tre tabeller:
-- Brukere har kolonnene id, navn, e-post og telefonnummer
-- Chat har kolonnene id, senderid, reciverid og messageid
-- Meldinger har kolonnene id, messagebody og emne
+- Brukere har kolonnene id, username, email og phone_number
+- Chat har kolonnene id, sender_id, receiver_id og message_id
+- Meldinger har kolonnene id, message_body og subject
 
 Chat-tabellen fungerer som en tråd mellom messages og user tabellene. En chat/tråd må ha 1 eller flere users. 
 Users trenger ikke ha en chat/tråd, men kan ha flere chatter/tråder.
@@ -63,8 +63,31 @@ Du ser også hvem som er sender og hvem som er receiver og kan med det svaret ve
 
 I vår frontend er det kun mulig å sende/svare og se meldinger som bruker har skrevet eller mottatt.
 For å minimere tid brukt på frontend kode, har vi i stedet løst flere funksjonaliteter ved hjelp av tester. 
-I testene vil du se at det er mulig å slette en melding,
-oppdatere informasjon om en bruker, returnere melding etter emne, opprette ny bruker, samt se melding basert på bruker.
+
+I testene vil du se at det er mulig å:
+
+- Sende og motta meldinger
+-- test og frontend
+- Slette en melding
+-- I test - MessageDaoTest
+- Hente ut meldinger mellom to brukere 
+-- I test 
+--- ChatDaoTest og ChatServerTest
+- Hente ut melding basert på sender
+-- I test og frontend
+- Hente ut melding baser på mottaker
+-- I test og frontend
+- Hente ut meldinger etter emne 
+-- I test 
+--- MessageDaoTest
+- Opprette ny bruker
+-- I test 
+--- UserDao og ChatServerTest
+- Hente ut sender og mottaker
+-- I test og frontend
+- Oppdatere informasjon om eksisterende bruker 
+-- I test
+--- UserDaoTest og ChatServerTest
 
 Samarbeidet under dette prosjektet har gått veldig bra. Vi har både jobbet sammen på skolen, på discord samtidig 
 som vi deler skjerm eller hver for seg med ulike oppgaver. 
@@ -72,10 +95,10 @@ Vi har begge committed til Github fra begge Github-kontoene.
 Samtidig har vi vært flinke til å ta hverandre gjennom vår kode for at begge skal forstå hva den andre har gjort.
 
 Funksjonalitet utover minimum
-- Kan endre informasjon om eksisterende bruker (vist gjennom tester i UserDaoTest og ChatServerTest)
+- Kan endre informasjon om eksisterende bruker med PUT http method
 - Bruker lagrer i tillegg mobil nummer
 - Meldinger viser avsender og mottaker (gjort med join, vist i tester og på frontend)
-- meldinger kan slettes (vist med test i MessageDaoTest)
+- meldinger kan slettes 
 
 
 
