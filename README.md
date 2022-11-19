@@ -57,13 +57,14 @@ Users trenger ikke ha en chat/tråd, men kan ha flere chatter/tråder.
 Messages kan kun ha en chat/tråd, da vi har valgt at det ikke er mulig å sende gruppemeldinger. 
 En chat/tråd trenger ikke ha en messages, men kan ha flere messages.
 
-Vi har valgt å sette fokus på backend, fordi det er en examen i backend. Vår frontend er derfor veldig enkel med alle funksjoner på første side.
-Der kan du velge hvilken bruker du ønsker å representere. Deretter tas samtidig denne brukerens meldingshistorikk frem. 
-Både mottatt og sendt meldinger fra denne brukeren. Du kan også se hvem brukeren mottatt meldinger fra.
+Vi har valgt å sette mest fokus på backend, fordi det er en eksamen i backend. Vår frontend er derfor veldig enkel med alle funksjoner på første side.
+Der kan du velge hvilken bruker du ønsker å representere. Deretter vises samtidig denne brukerens meldingshistorikk frem. 
+Både meldinger sendt og mottatt av denne brkeren vises. Du kan også se hvem brukeren har mottatt meldinger fra.
 Etter det kan du velge hvem du vil sende en melding til, skrive inn et subject og en body. Klikk send for å send meldingen.
 Ønsker du å se meldingen du sendte, klikker du på brukeren du har sendt til (han er da en aktiv user), du finner meldingen hans under mottatte meldinger.
-Vi har løst fler funktioner i tester men valgt att ikke gjøre dette i vår frontend.
- 
+Her kan du så, ved å velge den tidligere avsenderen mottaker, svare på meldingen.
+
+Vi har også implementert mer funksjonalitet, men valgt å vise dette gjennom tester i og ikke i GUI.
 
 I testene vil du se at det er mulig å:
 
@@ -92,7 +93,7 @@ I testene vil du se at det er mulig å:
 
 Samarbeidet under dette prosjektet har gått veldig bra. Vi har både jobbet sammen på skolen, på discord samtidig 
 som vi deler skjerm eller hver for seg med ulike oppgaver. 
-Vi har begge committed til Github fra begge Github-kontoene. 
+Vi har begge committed til Github fra begge Github-kontoene og brukt branching flittig for å unngå konflikter.
 Samtidig har vi vært flinke til å ta hverandre gjennom vår kode for at begge skal forstå hva den andre har gjort.
 
 Funksjonalitet utover minimum
